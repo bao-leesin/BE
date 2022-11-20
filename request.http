@@ -1,0 +1,91 @@
+POST   http://localhost:3003/apis/login
+content-type: application/json
+
+{
+    "username":"us11",
+    "password": "pw11"
+}
+
+###
+
+GET   http://localhost:3003/apis/profile/show/us11
+Authorization: Beaer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InVzMTEiLCJwYXNzd29yZCI6InB3MTEiLCJpYXQiOjE2NjYyNzg2NjgsImV4cCI6MTY2NjM4NjY2OH0.F3UP2XVtbRYG0BsO0qGg8MLLI8I1qsy5gH-DJv-ZAcA
+
+
+###
+POST   http://localhost:3003/apis/register
+content-type: application/json
+
+{
+    "tenDangNhap":"us11",
+    "matKhau": "pw11",
+    "vaiTro":"user",
+    "diaChi": "199 Đê La Thành ",
+    "ngaySinh": null,
+    "email": "hola11@gmail",
+    "tenDayDu" :"",
+    "gioiTinh" : "bisexual"
+}
+
+
+###
+
+POST   http://localhost:3003/apis/film/rating/create
+content-type: application/json
+
+{
+    "idKhachHang": 6,
+    "idPhim": 6,
+    "soSaoDanhGia": 4
+}
+
+###
+
+# Authorization: Beaer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InVzMTEiLCJwYXNzd29yZCI6InB3MTEiLCJpYXQiOjE2NjYyNzg2NjgsImV4cCI6MTY2NjM4NjY2OH0.F3UP2XVtbRYG0BsO0qGg8MLLI8I1qsy5gH-DJv-ZAcA
+POST   http://localhost:3003/apis/film/create
+content-type: application/json
+
+{
+    "filmName":"HOD",
+    "genreName": "Vien tuong",
+    "actorName": "Daemon"
+}
+
+###
+GET http://localhost:3003/apis/homePage
+###
+
+POST   http://localhost:3003/apis/film/filter/genres
+content-type: application/json
+
+{
+    "genres":["Kì ảo","Phiêu lưu"]
+}
+###
+GET http://localhost:3003/apis/film/search/name?search=Sinh vật 
+
+
+### 
+GET http://localhost:3003/apis/film/search/id/2
+
+###
+GET http://localhost:3003/apis/film/show
+
+###
+
+GET http://localhost:3003/apis/user/show/3
+
+###
+POST  http://localhost:3003/apis/user/update/3
+content-type: application/json
+
+{
+    "address": "Phường Phương Canh, Quận Nam Từ Liêm, Hà Nội",
+    "birthday": "1990-02-18",
+    "email": "dangngociep110@hotmail.com",
+    "fullname": "Lee Min Ho",
+    "sex": "Nam"
+}
+
+###
+http://localhost:3003/apis/

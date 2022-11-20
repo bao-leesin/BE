@@ -1,0 +1,488 @@
+const {
+  ValidationError,
+  FieldRequiredError,
+  AlreadyTakenError,
+  NotFoundError,
+} = require("../helper/customError");
+const pool = require("../config/configMysql");
+
+var express = require('express')
+var fs = require('fs')
+var app = express()
+
+
+class Film{
+    #id
+    #name
+    #genre
+    #description
+    #rating
+    #trailer
+    #view
+    #releaseDay
+    #idUser
+    #image
+    #top
+    #path
+    constructor(name,description,rating,trailer,view,releaseDay){
+        this.#name= name
+        this.#description= description
+        this.#rating= rating
+        this.#trailer= trailer
+        this.#view= view
+        this.#releaseDay= releaseDay
+        
+    }
+
+    set setId(id) {
+      this.#id = id;
+    }
+  
+    get getId() {
+      return this.#id;
+    }
+
+    set setName(name) {
+      this.#name = name;
+    }
+  
+    get getName() {
+      return this.#name;
+    }
+
+    set setGenre(genre) {
+      this.#genre = genre;
+    }
+  
+    get getGenre() {
+      return this.#genre;
+    }
+
+    set setIdUser(idUser) {
+      this.#idUser = idUser;
+    }
+  
+    get getIdUser() {
+      return this.#idUser;
+    }
+
+    set setView(view) {
+      this.#view = view;
+    }
+
+    get getView() {
+      return this.#view;
+    }
+
+
+    set setRating(rating) {
+      this.#rating = rating;
+    }
+  
+    get getRating() {
+      return this.#rating;
+    }    
+
+    set setTop(top) {
+      this.#top = top;
+    }
+  
+    get getTop() {
+      return this.#top;
+    }
+  
+    set setImage(image) {
+      this.#image = image;
+    }
+  
+    get getImage() {
+      return this.#image;
+    }
+
+// Nhóm chức năng tìm kiếm, show dữ liệu
+
+    getAllFilm(){
+      return new Promise((resolve, reject) => {
+      pool.getConnection( (err,connection) =>{ 
+      try {
+      const query = "SELECT * FROM phim"
+      if (err) throw err
+      connection.query(
+      query,
+      [],
+      (err,rows) =>{
+      if (err) throw err
+      // if(rows.length === 0) throw new NotFoundError() 
+      resolve(rows)
+      })
+      connection.release()
+      }catch (error) {
+        connection.release()
+      reject(error)
+      console.log(error)
+      }})})}
+
+    getFilmById(){
+     return new Promise((resolve, reject) => {
+       pool.getConnection( (err,connection) =>{ 
+     try {
+     const query = "SELECT * FROM phim WHERE idPhim = ?"
+     if (err) throw err
+     connection.query(
+     query,
+     [this.#id],
+     (err,rows) =>{
+     if (err) throw err
+    //  if(rows.length === 0) throw new NotFoundError() 
+     resolve(rows[0])
+    })
+    connection.release()
+     }catch (error) {
+      connection.release()
+      reject(error)
+     console.log(error)
+    }})})}
+
+    getFilmByName(){
+      return new Promise((resolve, reject) => {
+      pool.getConnection( (err,connection) =>{ 
+      try {
+      const query = "SELECT * FROM phim WHERE tenPhim LIKE" 
+      + "'%" + this.#name + "%'" 
+      if (err) throw err
+      connection.query(
+      query,
+      [],
+      (err,rows) =>{
+      if (err) throw err
+      resolve(rows)
+      })
+      connection.release()
+      }catch (error) {
+        connection.release()
+        reject(error)
+      console.log(error)
+      }})})}
+
+    getFilmByViews(){
+        return new Promise((resolve, reject) => {
+          pool.getConnection( (err,connection) =>{ 
+          try {
+            const query = "SELECT idPhim, tenPhim FROM phim WHERE luotXem > ?"
+            if (err) throw err
+            connection.query(
+              query,
+              [this.#view],
+              (err,rows) =>{
+                if (err) throw err
+                else resolve(rows)
+              })
+              connection.release();
+            
+          } catch (error) {
+            connection.release();
+            reject(error)
+            console.log(error);
+          }})})}
+    
+      getFilmByRatings(){
+        return new Promise((resolve, reject) => {
+          pool.getConnection( (err,connection) =>{ if (err) throw err
+          try {
+              const query = "SELECT idPhim, tenPhim FROM phim ORDER BY danhGiaPhim DESC  LIMIT ?"
+            connection.query(
+              query,
+              [this.#top],
+              (err,rows) => {
+                if (err) throw err
+                else resolve(rows)
+              })
+              connection.release()
+          } catch (error) {
+            connection.release();
+            reject(error)
+            console.log(error);
+            
+          }})})}
+    
+      getNewFilm(){
+        return new Promise((resolve, reject) => {
+          pool.getConnection( (err,connection) =>{ 
+         try {
+        const query = "SELECT idPhim, tenPhim FROM phim ORDER BY ngayChieu DESC LIMIT ?"
+          if (err) throw err
+         connection.query(
+          query,
+          [this.#top],
+          (err,rows) =>{
+            if (err) throw err
+            else resolve(rows)
+          })
+        connection.release()      
+      } catch (error) {
+        connection.release()
+        reject(error)
+        console.log(error)
+      
+      }})})
+      }
+
+      getFilmByGenres(){
+        return new Promise((resolve, reject) => {
+          pool.getConnection( (err,connection) =>{ 
+        try {
+        const length = this.#genre.length
+        const query = "SELECT * FROM phim WHERE idPhim IN" +
+        "(SELECT idPhim FROM phim__the_loai WHERE theLoai IN" +
+          "(?) GROUP BY idPhim HAVING COUNT(*) = ?)"
+        if (err) throw err
+        connection.query(
+        query,
+        [this.#genre,length],
+        (err,rows) =>{
+        if (err) throw err
+        if(rows.length === 0) throw new NotFoundError()
+        resolve(rows)
+        })
+        connection.release()
+        
+        }catch (error) {
+          connection.release()
+          reject(error)
+        console.log(error)
+        }})})
+      }
+
+      showRatingFilm(){
+        return new Promise((resolve, reject) => {
+        pool.getConnection( (err,connection) =>{ 
+        try {
+        const query = "SELECT round(AVG(soSaoDanhGia)) AS tb FROM khach_hang_danh_gia WHERE idPhim = ?"
+        if (err) throw err
+        connection.query(
+        query,
+        [this.#id],
+        (err,rows) =>{
+        if (err) throw err
+        // if(rows.length === 0) throw new NotFoundError() 
+        this.#rating = rows[0].tb
+        resolve(this.#rating)
+        })
+        connection.release()
+        }catch (error) {
+        reject(error)
+        console.log(error)
+        }})})
+      }
+
+      getFilmImages(){
+        return new Promise((resolve, reject) => {
+        pool.getConnection( (err,connection) =>{ 
+        try {
+        const query = "SELECT duongDanAnh FROM phim__anh_cua_phim WHERE idPhim = ?"
+        if (err) throw err
+        connection.query(
+        query,
+        [this.#id],
+        (err,rows) =>{
+        if (err) throw err
+        // if(rows.length === 0) throw new NotFoundError() 
+        resolve(rows)
+        })
+        connection.release()
+        }catch (error) {
+        reject(error)
+        console.log(error)
+        }})})
+      }
+
+// *****************************************************************************************
+      // Nhóm chức năng thêm
+
+      createFilm(){
+        return new Promise((resolve, reject) => {
+        pool.getConnection( (err,connection) =>{ 
+        try {
+        const query = "INSERT INTO phim VALUES(?,?,?,?,?,?,?)"
+        if (err) throw err
+        connection.query(
+        query,
+        [this.#id,this.#name,this.#description,this.#rating,this.#trailer,this.#view,this.#releaseDay],
+        (err,rows) =>{
+        if (err) throw err
+        // if(rows.length === 0) throw new NotFoundError() 
+        this.#id = rows.insertId 
+        resolve(rows.insertId)
+        })
+        connection.release()
+        }catch (error) {
+        reject(error)
+        console.log(error)
+        }})})
+      }
+    
+      rateFilm(){
+        return new Promise((resolve, reject) => {
+        pool.getConnection( (err,connection) =>{ 
+        try {
+        const query = "INSERT INTO khach_hang_danh_gia VALUES(?,?,?)" 
+        if (err) throw err
+        connection.query(
+        query,
+        [this.#idUser,this.#id,this.#rating],
+        (err,rows) =>{
+        if (err) throw err
+        // if(rows.length === 0) throw new NotFoundError() 
+        resolve(rows)
+        })
+        connection.release()
+        }catch (error) {
+        reject(error)
+        console.log(error)
+        }})})
+      }
+
+      createFilmImages(){
+        return new Promise((resolve, reject) => {
+        pool.getConnection( (err,connection) =>{ 
+        try {
+        const query = "INSERT INTO phim__anh_cua_phim VALUES(?,?)"
+        if (err) throw err
+        connection.query(
+        query,
+        [this.#id,this.#image],
+        (err,rows) =>{
+        if (err) throw err
+        // if(rows.length === 0) throw new NotFoundError() 
+        resolve(rows)
+        })
+        connection.release()
+        }catch (error) {
+        reject(error)
+        console.log(error)
+        }})})
+      }
+
+      
+
+      // *****************************************************************************************
+      // Nhóm chức năng Sửa
+
+      updateFilm(){
+        return new Promise((resolve, reject) => {
+        pool.getConnection( (err,connection) =>{ 
+        try {
+        const query = "UPDATE phim SET" +
+                      "tenPhim = ?, moTa = ?, danhGiaPhim = ?, trailer = ?, luotXem = ?, ngayChieu = ?" +
+                      "WHERE idPhim = ?"
+        if (err) throw err
+        connection.query(
+        query,
+        [this.#name, this.#description, this.#rating, this.#trailer, this.#view, this.#releaseDay, this.#id],
+        (err,rows) =>{
+        if (err) throw err
+        // if(rows.length === 0) throw new NotFoundError() 
+        resolve(rows)
+        })
+        connection.release()
+        }catch (error) {
+        reject(error)
+        console.log(error)
+        }})})
+      }
+
+      updateRatingFilm(){
+        return new Promise((resolve, reject) => {
+        pool.getConnection( (err,connection) =>{ 
+        try {
+        const query = "UPDATE phim SET danhGiaPhim = (SELECT round(AVG(soSaoDanhGia)) AS tb FROM khach_hang_danh_gia WHERE idPhim = ?) WHERE idPhim = ?"
+        if (err) throw err
+        connection.query(
+        query,
+        [this.#id,this.#rating],
+        (err,rows) =>{
+        if (err) throw err
+        resolve(rows)
+        })
+        connection.release()
+        }catch (error) {
+        reject(error)
+        console.log(error)
+        }})})
+      }
+
+
+      // *****************************************************************************************
+      // Nhóm chức năng Xoá
+      deleteFilm(){
+        return new Promise((resolve, reject) => {
+        pool.getConnection( (err,connection) =>{ 
+        try {
+        const query = "DELETE FROM phim WHERE idPhim = ?"
+        if (err) throw err
+        connection.query(
+        query,
+        [this.#id],
+        (err,rows) =>{
+        if (err) throw err
+        // if(rows.length === 0) throw new NotFoundError() 
+        resolve(rows)
+        })
+        connection.release()
+        }catch (error) {
+        reject(error)
+        console.log(error)
+        }})})
+      }
+
+
+       // *****************************************************************************************
+      // Nhóm chức năng Xem phim
+
+      async playFilm(range, res){
+        const videoSize = fs.statSync(this.#path).size
+        const chunkSize = 1 * 1e+6
+        const start = Number(range.replace(/\D/g, '')) // /_/g la global match, \D la 
+        const end = Math.min(start + chunkSize, videoSize - 1)
+        console.log('range: ', range)
+        const contentLength = end - start + 1
+        
+        const headers = {
+            "Content-Range": `bytes ${start}-${end}/${videoSize}`,
+            "Accept-Ranges": "bytes",
+            "Content-Length": contentLength,
+            "Content-Type": "video/mp4"
+        }
+    
+        console.log('headers: ', headers)
+        res.writeHead(206, headers)
+        
+        const stream = fs.createReadStream(this.#path, {start, end})
+        stream.pipe(res)
+      }
+
+      getFilmPath() {
+        return new Promise((resolve, reject) => {
+          pool.getConnection( (err,connection) =>{ 
+          try {
+          const query = "SELECT duongDan FROM `phim` WHERE `idPhim` = ?"
+          if (err) throw err
+          connection.query(
+          query,
+          [this.#id],
+          (err,rows) =>{
+          if (err) throw err
+          if(rows.length === 0) throw new NotFoundError() 
+        //  this.#trailer = rows[0].duongDan
+          resolve(rows[0].duongDan)
+          })
+          connection.release()
+          }catch (error) {
+          reject(error)
+          console.log(error)
+          }})})
+      }
+
+}
+
+module.exports = Film;
