@@ -8,13 +8,13 @@ const promotionRouter = require('./promotionRouter')
 const complainRouter = require('./complainRouter')
 const commentRouter = require('./commentRouter')
 const watchFIlmRouter  = require('./watchFilmRouter')
-
+const adminRouter = require('./adminRouter')
 
 function route(app) {
     app.use('/apis/',visitorRouter)   
     app.use('/apis/film/',filmRouter)
     app.use('/apis/user/',userRouter)
-    app.use('/apis/admin/',userRouter)
+    app.use('/apis/admin/',adminRouter)
     app.use('/apis/actor/',actorRouter)
     app.use('/apis/notification/',notificationRouter)    
     app.use('/apis/subscription/',subscriptionRouter)

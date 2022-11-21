@@ -1,4 +1,5 @@
 const  Visitor  = require("./Visitor");
+const moment = require("moment/moment");
 
 
 const {
@@ -261,7 +262,7 @@ class User extends Visitor{
         (err,rows) =>{
         if (err) throw err
         // if(rows.length === 0) throw new NotFoundError() 
-        resolve(rows[0])
+        resolve(rows)
         })
         connection.release()
         }catch (error) {
@@ -274,8 +275,9 @@ class User extends Visitor{
         return new Promise((resolve, reject) => {
         pool.getConnection( (err,connection) =>{ 
         try {
+          
         const query = "UPDATE nguoi_dung_co_tai_khoan SET " + 
-        "diaChi = ?, ngaySinh = ?, email = ?, tenDayDu = ?, gioiTinh = ? "+  
+        "diaChi = ?, ngaySinh = ? , email = ?, tenDayDu = ?, gioiTinh = ? "+  
         "WHERE idNguoiDung = ?"
         if (err) throw err
         connection.query(
@@ -283,7 +285,9 @@ class User extends Visitor{
         [this.#address, this.#birthday, this.#email, this.#fullname, this.#sex, this.#id],
         (err,rows) =>{
         if (err) throw err
-        })
+        resolve(rows)
+        }
+        )
         connection.release()
         }catch (error) {
         reject(error)

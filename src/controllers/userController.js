@@ -84,12 +84,12 @@ const rateFilm = async (req,res,next) => {
 }
 
 const updateUserInfo = async (req,res,next) => {
-    const {idNguoiDung,vaiTro,diaChi,sinhNhat,email,tenDayDu,gioiTinh} = req.body
+    const {idNguoiDung,vaiTro,diaChi,ngaySinh,email,tenDayDu,gioiTinh} = req.body
     try {
-        let user = new User(idNguoiDung,null,null,vaiTro,diaChi,sinhNhat,email,tenDayDu,gioiTinh);
+        let user = new User(idNguoiDung,null,null,vaiTro,diaChi,ngaySinh,email,tenDayDu,gioiTinh);
         await user.updateUserInfo()
         const data = await user.getUserInfo()
-        res.send(data)
+        res.send(data[0])
     } catch (error) {
         res.status(400).send(error.message)
     }

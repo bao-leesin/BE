@@ -11,6 +11,7 @@ router.use('/create/request', userController.requestFilm)
 router.use('/create/complain', userController.complain)
 router.use('/like', userController.likeFilm)
 router.use('/unlike', userController.unlikeFilm)
+router.use('/update/info',userController.updateUserInfo)
 
 
 
@@ -18,7 +19,6 @@ router.use('/unlike', userController.unlikeFilm)
 router.use('/show/liked/:idNguoiDung', userController.getLikedFilm)
 router.use('/show/info/:idNguoiDung',userController.getUserInfo)
 router.use('/show/subscribed/:idNguoiDung',subscriptionController.getSubOfUser)
-router.use('/update/info',userController.updateUserInfo)
 router.use('/show',userController.getAllUser)
 
 
