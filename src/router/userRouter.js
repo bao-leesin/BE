@@ -21,7 +21,7 @@ router.use('/update/info',userController.updateUserInfo)
 router.use('/show/liked/:idNguoiDung', userController.getLikedFilm)
 router.use('/show/info/:idNguoiDung',userController.getUserInfo)
 router.use('/show/subscribed/:idNguoiDung',subscriptionController.getSubOfUser)
-router.use('/show/notification/idNguoiDung', notificationController.getNotisOfUser)
+router.use('/show/notification/:idNguoiDung', notificationController.getNotisOfUser)
 router.use('/show',userController.getAllUser)
 
 

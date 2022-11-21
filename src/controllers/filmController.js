@@ -89,6 +89,7 @@ const getFilmByRating = async (req, res, next) => {
   const rating = req.params.danhGia;
   try {
     let film = new Film();
+    await film.updateRatingFilm();
     film.setRating = rating;
     const output = await film.getFilmByRatings();
     res.send(output);
@@ -324,6 +325,8 @@ const createFilmImages = async (req, res, next) => {
     res.status(400).send(error.message);
   }
 };
+
+
 
 const playFilmCtrl = async (req, res, next) => {
   const range = req.headers.range;

@@ -75,7 +75,7 @@ class WatchFilms{
                         [this.#idFilm, this.#idUser, this.#idEp, this.#watchingDate, this.#watchingTime],
                         (err, row) => {
                             if(err) throw err
-                            if(row.length === 0) throw new NotFoundError()
+                            // if(row.length === 0) throw new NotFoundError()
                             resolve(row)
                         }
                     )
@@ -100,7 +100,7 @@ class WatchFilms{
                         [this.#idUser],
                         (err, row) => {
                             if(err) throw err
-                          //  if(row.length === 0) throw new NotFoundError()
+                           if(row.length === 0) throw new NotFoundError()
                             resolve(row)
                             
                         }
@@ -126,7 +126,7 @@ class WatchFilms{
                         [this.#idUser, this.#idFilm, this.#idEp],
                         (err, row) => {
                             if(err) throw err
-                            if(row.length === 0) throw new NotFoundError()
+                            // if(row.length === 0) throw new NotFoundError()
                             resolve(row)
                         }
                     )
@@ -151,7 +151,7 @@ class WatchFilms{
                         [this.#idUser],
                         (err, row) => {
                             if(err) throw err
-                            if(row.length === 0) throw new NotFoundError()
+                            // if(row.length === 0) throw new NotFoundError()
                             resolve(row)
                         }
                     )

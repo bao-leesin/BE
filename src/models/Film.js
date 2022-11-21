@@ -202,7 +202,7 @@ class Film{
           pool.getConnection( (err,connection) =>{ if (err) throw err
           try {
               const query = 
-              "SELECT A.idPhim, A.tenPhim, A.luotXem , B.duongDanAnh " +
+              "SELECT A.idPhim, A.tenPhim, A.danhGiaPhim , B.duongDanAnh " +
               "FROM phim AS A " +
               "INNER JOIN phim__anh_cua_phim AS B "  +
               "ON A.idPhim = B.idPhim " +
@@ -211,7 +211,7 @@ class Film{
 
             connection.query(
               query,
-              [this.#top],
+              [this.#rating],
               (err,rows) => {
                 if (err) throw err
                 else resolve(rows)
@@ -417,11 +417,13 @@ class Film{
         return new Promise((resolve, reject) => {
         pool.getConnection( (err,connection) =>{ 
         try {
-        const query = "UPDATE phim SET danhGiaPhim = (SELECT round(AVG(soSaoDanhGia)) AS tb FROM khach_hang_danh_gia WHERE idPhim = ?) WHERE idPhim = ?"
+        const query = "UPDATE phim SET danhGiaPhim = "+
+        "(SELECT round(AVG(soSaoDanhGia)) AS tb FROM khach_hang_danh_gia ) "+
+        "WHERE idPhim IN (SELECT idPhim FROM khach_hang_danh_gia ORDER BY idPhim)"
         if (err) throw err
         connection.query(
         query,
-        [this.#id,this.#rating],
+        [this.#id,this.#id],
         (err,rows) =>{
         if (err) throw err
         resolve(rows)

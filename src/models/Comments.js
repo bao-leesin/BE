@@ -76,7 +76,7 @@ class Comments{
                         [this.#idFilm, this.#idUser, this.#content, this.#postDate],
                         (err, row) => {
                             if(err) throw err
-                            if(row.length === 0) throw new NotFoundError()
+                            // if(row.length === 0) throw new NotFoundError()
                             resolve(row)
                         }
                     )
@@ -101,7 +101,7 @@ class Comments{
                         [this.#idFilm],
                         (err, row) => {
                             if(err) throw err
-                          //  if(row.length === 0) throw new NotFoundError()
+                           if(row.length === 0) throw new NotFoundError()
                             resolve(row)
                             
                         }
@@ -128,7 +128,7 @@ class Comments{
                         [this.#content, this.#postDate, this.#idFilm, this.#idUser],
                         (err, row) => {
                             if(err) throw err
-                            if(row.length === 0) throw new NotFoundError()
+                            // if(row.length === 0) throw new NotFoundError()
                             resolve(row)
                         }
                     )
@@ -152,7 +152,7 @@ class Comments{
                         [this.#idFilm, this.#idUser],
                         (err, row) => {
                             if(err) throw err
-                            if(row.length === 0) throw new NotFoundError()
+                            // if(row.length === 0) throw new NotFoundError()
                             resolve(row)
                         }
                     )

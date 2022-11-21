@@ -137,11 +137,11 @@ class Notification{
       return new Promise((resolve, reject) => {
       pool.getConnection( (err,connection) =>{ 
       try {
-      const query = "SELECT idThongBao, tieuDeThongBao, noiDungThongBao WHERE idThongBao IN (SELECT idThongBao FROM ) "
+      const query = "SELECT idThongBao, tieuDeThongBao, noiDungThongBao FROM thong_bao WHERE idThongBao IN (SELECT idThongBao FROM gui_thong_bao WHERE idNguoiDung = ?) "
       if (err) throw err
       connection.query(
       query,
-      [],
+      [this.#idUser],
       (err,rows) =>{
       if (err) throw err
       resolve(rows)
@@ -157,7 +157,7 @@ class Notification{
         return new Promise((resolve, reject) => {
         pool.getConnection( (err,connection) =>{ 
         try {
-        const query = "INSERT INTO     VALUES(?,?)"
+        const query = "INSERT INTO gui_thong_bao VALUES(?,?)"
         if (err) throw err
         connection.query(
         query,

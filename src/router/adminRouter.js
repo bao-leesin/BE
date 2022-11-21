@@ -14,6 +14,7 @@ router.use('/push/notification/', notificationController.pushNotification)
 // Xem
 router.use('/show/film/view/:luotXem',filmController.getFilmByViews)
 router.use('/show/film/rating/:danhGia',filmController.getFilmByRating)
+
 // router.use('/show/request/film',)
 router.use('/show/subscribed/:idNguoiDung',subscriptionController.getSubOfUser)
 router.use('/show/user/:idNguoiDung',userController.getUserInfo)
