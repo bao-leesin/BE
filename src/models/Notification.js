@@ -10,13 +10,14 @@ class Notification{
     #id;
     #title;
     #content;
+    #idUser;
     constructor(id,title,content){
       this.#id = id  
       this.#title = title
-        this.#content = content
+      this.#content = content
     }
 
-    set setId(id) {
+      set setId(id) {
         this.#id = id;
       }
     
@@ -38,6 +39,14 @@ class Notification{
       get getContent() {
         return this.#content;
       } 
+
+      set setIdUser(idUser) {
+        this.#idUser = idUser;
+      }
+    
+      get getIdUser() {
+        return this.#idUser;
+      }
 
     createNoti(){
         return new Promise((resolve, reject) => {
@@ -124,11 +133,31 @@ class Notification{
         }})})
     }
 
+    getNotisOfUser(){
+      return new Promise((resolve, reject) => {
+      pool.getConnection( (err,connection) =>{ 
+      try {
+      const query = "SELECT idThongBao, tieuDeThongBao, noiDungThongBao WHERE idThongBao IN (SELECT idThongBao FROM ) "
+      if (err) throw err
+      connection.query(
+      query,
+      [],
+      (err,rows) =>{
+      if (err) throw err
+      resolve(rows)
+      })
+      connection.release()
+      }catch (error) {
+      reject(error)
+      console.log(error)
+      }})})
+    }
+
     pushNotification(){
         return new Promise((resolve, reject) => {
         pool.getConnection( (err,connection) =>{ 
         try {
-        const query = "SELECT tieuDeThongBao, noiDungThongBao FROM thong_bao WHERE idThongBao = ?"
+        const query = "INSERT INTO     VALUES(?,?)"
         if (err) throw err
         connection.query(
         query,

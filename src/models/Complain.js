@@ -79,14 +79,14 @@ class Complain{
       return new Promise((resolve, reject) => {
       pool.getConnection( (err,connection) =>{ 
       try {
-      const query = "SELECT A.idKhieuNai, A.tieuDeKhieuNai, A.noiDungKhieuNai, C.tenChuDe, C.trangThai" +
-      "FROM khach_hang_khieu_nai AS A" +
-      "INNER JOIN chu_de_khieu_nai__ds_khieu_nai AS B ON A.idKhieuNai = B.idKhieuNai"  +
+      const query = "SELECT A.idKhieuNai, A.tieuDeKhieuNai, A.noiDungKhieuNai, C.tenChuDe, C.trangThai " +
+      "FROM khach_hang_khieu_nai AS A " +
+      "INNER JOIN chu_de_khieu_nai__ds_khieu_nai AS B ON A.idKhieuNai = B.idKhieuNai "  +
       "INNER JOIN chu_de_khieu_nai AS C ON B.idChuDe = C.idChuDe"  
       if (err) throw err
       connection.query(
       query,
-      [],
+      [], 
       (err,rows) =>{
       if (err) throw err
       resolve(rows)

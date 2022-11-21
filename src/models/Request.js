@@ -95,8 +95,6 @@ class Request{
       }})})
     }
 
-
-
     createRequest(){
       return new Promise((resolve, reject) => {
       pool.getConnection( (err,connection) =>{ 

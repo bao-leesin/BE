@@ -7,8 +7,10 @@ const notificationRouter = require('./notificationRouter')
 const promotionRouter = require('./promotionRouter')
 const complainRouter = require('./complainRouter')
 const commentRouter = require('./commentRouter')
-const watchFIlmRouter  = require('./watchFilmRouter')
+const watchFilmRouter  = require('./watchFilmRouter')
 const adminRouter = require('./adminRouter')
+const requestRouter = require('./requestRouter')
+
 
 function route(app) {
     app.use('/apis/',visitorRouter)   
@@ -20,9 +22,9 @@ function route(app) {
     app.use('/apis/subscription/',subscriptionRouter)
     app.use('/apis/promotion/', promotionRouter)
     app.use('/apis/complain/', complainRouter)
-    app.use('/apis/request/', complainRouter)
+    app.use('/apis/request/', requestRouter)
     app.use('/apis/comment/',commentRouter)
-    app.use('/apis/watchfilm/',watchFIlmRouter)
+    app.use('/apis/watchfilm/',watchFilmRouter)
 
 }
 

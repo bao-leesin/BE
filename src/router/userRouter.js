@@ -2,6 +2,8 @@ const express = require('express')
 const router = express.Router()
 const userController = require('../controllers/userController')
 const subscriptionController = require('../controllers/subscriptionController')
+const notificationController = require('../controllers/notificationController')
+
 // const { verifyToken } = require('../middleware/authentication')
 
 // chuc nang nguoi dung
@@ -19,6 +21,7 @@ router.use('/update/info',userController.updateUserInfo)
 router.use('/show/liked/:idNguoiDung', userController.getLikedFilm)
 router.use('/show/info/:idNguoiDung',userController.getUserInfo)
 router.use('/show/subscribed/:idNguoiDung',subscriptionController.getSubOfUser)
+router.use('/show/notification/idNguoiDung', notificationController.getNotisOfUser)
 router.use('/show',userController.getAllUser)
 
 

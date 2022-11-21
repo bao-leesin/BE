@@ -9,7 +9,7 @@ const {tieuDeThongBao,noiDungThongBao} = req.body
         const notis =  await noti.getAllNoti()
         res.send(notis) 
     } catch (error) {
-        res.status(400).send(error)
+        res.status(400).send(error.message)
     }
 }
 
@@ -21,7 +21,7 @@ const updateNoti  = async (req,res,next) => {
         const notis = await noti.getAllNoti()
         res.send(notis) 
     } catch (error) {
-        res.status(400).send(error)
+        res.status(400).send(error.message)
     }
 }
 
@@ -34,7 +34,7 @@ const deleteNoti = async (req,res,next) => {
         const notis = await noti.getAllNoti()
         res.send(notis)
     } catch (error) {
-        res.status(400).send(error)
+        res.status(400).send(error.message)
     }
 }
 
@@ -44,7 +44,30 @@ const getAllNoti = async (req,res,next) => {
         const notis = await noti.getAllNoti()
         res.send(notis)
     } catch (error) {
-        res.status(400).send(error)
+        res.status(400).send(error.message)
+    }
+}
+
+const getNotisOfUser  = async (req,res,next) => {
+    const idNguoiDung = req.params.idNguoiDung
+    try {
+        let noti = new Notification()
+        noti.setIdUser = idNguoiDung
+        const output = await noti.getNotisOfUser()
+        res.send(output)
+    } catch (error) {
+        res.status(400).send(error.message)
+    }
+}
+const pushNotification  = async (req,res,next) => {
+    const {idNguoiDung, idThongBao} = req.body
+    try {
+        let noti = new Notification()
+        noti.setIdUser = idNguoiDung
+        noti.setId = idThongBao
+        await noti.pushNotification()
+    } catch (error) {
+        res.status(400).send(error.message)
     }
 }
 
@@ -52,5 +75,7 @@ module.exports = {
     createNoti,
     updateNoti,
     deleteNoti,
-    getAllNoti
+    getAllNoti,
+    pushNotification,
+    getNotisOfUser
 }

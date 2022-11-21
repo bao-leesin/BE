@@ -8,6 +8,7 @@ const { bcryptHash, bcryptCompare } = require("../helper/bcrypt");
 const Visitor  = require("../models/Visitor")
 const Film = require("../models/Film");
 const User  = require("../models/User");
+const Image = require("../models/Image");
 
 
   const login = async (req,res,next) => {
@@ -20,6 +21,8 @@ const User  = require("../models/User");
        if (!pwd) throw new Error('')
       const jwt = await jwtSign(existentUser)
       res.send({token: jwt})
+
+      // res.send(existentUser)
      } catch (error) {
       res.status(400).send(error)
      }
@@ -38,28 +41,54 @@ const User  = require("../models/User");
     const newUser = await user.getUserById()
       const jwt = await jwtSign(newUser[0])
       res.send({token: jwt})
+
+      // res.send(newUser[0])
   }catch (error){
     res.status(400).send(error.message)
   }
 }
 
 const showHomePage =async (req,res,next) =>{
-  const view = 500
-  const topNew= 5
-  const topRating = 5
-  const topLiked = 5
   try {
   let film = new Film();
-  film.setView = view
-  const hotFilm = await film.getFilmByViews()
-  film.setTop = topRating
-  const appreciatedFilm = await film.getFilmByRatings()
-  film.setTop = topNew
-  const newFilm = await film.getNewFilm();
+
+  const hotFilm = await film.getTopView()
+  const appreciatedFilm = await film.getTopRating()
+  const newFilm = await film.getTopNew();
+
+  const phimHot = await Promise.all(
+    hotFilm.map(async film => {
+    let image = new Image()
+    image.setIdFilm = film.idPhim
+    const images =   await image.getImageOfFilm()
+    film = {...film,...images}
+    return film
+  }))
+
+
+  const phimHay = await Promise.all(
+    appreciatedFilm.map(async film => {
+    let image = new Image()
+    image.setIdFilm = film.idPhim
+    const images =   await image.getImageOfFilm()
+    film = {...film,...images}
+    return film
+  }))
+
+  const phimMoi = await Promise.all(
+    newFilm.map(async film => {
+    let image = new Image()
+    image.setIdFilm = film.idPhim
+    const images =   await image.getImageOfFilm()
+    film = {...film,...images}
+    return film
+  }))
+
+
   const dataFilm = {
-      phimHot:hotFilm,
-      phimDanhGiaCao:appreciatedFilm,
-      phimMoi:newFilm
+      phimHot:phimHot,
+      phimHay:phimHay,
+      phimMoi:phimMoi
   }
   res.send(dataFilm)
   } catch (error) {

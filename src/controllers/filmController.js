@@ -1,6 +1,7 @@
 const Actor  = require("../models/Actor");
 const Film = require("../models/Film");
 const Genre = require("../models/Genre");
+const Image = require("../models/Image");
 
 
 
@@ -12,14 +13,16 @@ const getAllFilm = async (req,res,next) => {
             let actor = new Actor()
             let genre = new Genre()
             let films= new Film()
+            let image = new Image()
+            films.setId = film.idPhim
             actor.setIdFilm = film.idPhim
             genre.setIdFilm =  film.idPhim
-            films.setId = film.idPhim
+            image.setIdFilm = film.idPhim
             const actors =  await actor.getActorsByIdFilm()
             film.dienVien = actors
             const genres =  await genre.getGenresByIdFilm()
             film.theLoai = genres
-            const images = await films.getFilmImages()
+            const images = await image.getImageOfFilm()
             film.duongDanAnh = images
             // console.log(film);
             return film
@@ -34,16 +37,20 @@ const getFilmById = async (req,res,next) => {
     let film = new Film()
     let actor = new Actor()
     let genre = new Genre()
+    let image = new Image()
  
     const idFilm = req.params.idPhim
     try {
     film.setId = idFilm
     actor.setIdFilm = idFilm
     genre.setIdFilm = idFilm
+    image.setIdFilm = idFilm
+
     const films = await film.getFilmById()
     const actors = await actor.getActorsByIdFilm()
     const genres = await genre.getGenresByIdFilm()
-    const images = await film.getFilmImages()
+    const images = await image.getImagesOfFilm() 
+
     films.dienVien = actors
     films.theLoai = genres
     films.duongDanAnh = images
