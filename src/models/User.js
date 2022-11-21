@@ -233,7 +233,7 @@ class User extends Visitor{
         return new Promise((resolve, reject) => {
         pool.getConnection( (err,connection) =>{ 
         try {
-        const query = "SELECT idNguoiDung,diaChi,ngaySinh,email,tenDayDu,gioiTinh FROM nguoi_dung_co_tai_khoan"
+        const query = "SELECT idNguoiDung,diaChi,ngaySinh,email,tenDayDu,gioiTinh FROM nguoi_dung_co_tai_khoan WHERE vaiTro = 'khachHang' "
         if (err) throw err
         connection.query(
         query,

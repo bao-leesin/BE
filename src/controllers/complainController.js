@@ -31,7 +31,7 @@ const createTopic = async (req,res,next) => {
         if (!output) res.status(400).send({ketQua: "Thất bại"})
         else{
             const topics = await complain.getAllTopic()
-            if (!topics.length) throw new Error("Không có chủ đề nào cả")
+            res.send(topics)
         }
     } catch (error) {
         res.status(400).send(error)
@@ -51,11 +51,11 @@ const getSolutionForTopic = async (req,res,next) => {
 }
 
 const createSolutionForTopic = async (req,res,next) => {
-    const {idChuDe,idAdmin,cachGiaiQuyet} = req.body
+    const {idChuDe,cachGiaiQuyet,idAdminDongGop} = req.body
     try {
         let complain = new Complain()
         complain.setIdTopic = idChuDe
-        complain.idAdmin = idAdmin
+        complain.setIdAdmin = idAdminDongGop
         complain.setSolution = cachGiaiQuyet
         const output = await complain.createSolutionForTopic()
         if (!output) res.status(400).send({ketQua: "Thất bại"})

@@ -64,6 +64,14 @@ class Complain{
         return this.#solution;
       } 
 
+      set setIdAdmin(idAdmin) {
+        this.#idAdmin = idAdmin;
+      }
+    
+      get getIdAdmin() {
+        return this.#idAdmin;
+      }
+
     constructor(topic,title,content,solution){
         this.#topic = topic
         this.#title = title
@@ -143,7 +151,7 @@ class Complain{
       return new Promise((resolve, reject) => {
       pool.getConnection( (err,connection) =>{ 
       try {
-      const query = "SELECT A.idChuDe, A.tenChuDe, A.trangThai,  B.noiDung AS cachGiaiQuyet, B.idAdminDongGop" + 
+      const query = "SELECT A.idChuDe, A.tenChuDe, A.trangThai,  B.cachGiaiQuyet AS cachGiaiQuyet, B.idAdminDongGop " + 
                     "FROM  chu_de_khieu_nai AS A " +
                     "INNER JOIN  chu_de_khieu_nai__ds_phuong_huong_giai_quyet AS B ON A.idChuDe = B.idChuDe "
       if (err) throw err
@@ -191,11 +199,11 @@ class Complain{
         return new Promise((resolve, reject) => {
         pool.getConnection( (err,connection) =>{ 
         try {
-        const query = "INSERT INTO chu_de_khieu_nai VALUES(?,?)"
+        const query = "INSERT INTO chu_de_khieu_nai VALUES(?,?,?)"
         if (err) throw err
         connection.query(
         query,
-        [null,this.#topic],
+        [null,this.#topic,null],
         (err,rows) =>{
         if (err) throw err
         if(rows.length === 0) throw new NotFoundError() 
@@ -239,7 +247,7 @@ class Complain{
         if (err) throw err
         connection.query(
         query,
-        [this.#topic,this.#idAdmin,this.#solution],
+        [this.#idTopic,this.#idAdmin,this.#solution],
         (err,rows) =>{
         if (err) throw err
         if(rows.length === 0) throw new NotFoundError() 
