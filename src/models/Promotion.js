@@ -58,12 +58,13 @@ const {
         return new Promise((resolve, reject) => {
         pool.getConnection( (err,connection) =>{ 
         try {
-        const query = "INSERT INTO chuong_trinh_khuyen_mai VALUES (?,?,?,?,?,?,?,?)"
+        const query = "INSERT INTO chuong_trinh_khuyen_mai VALUES (?,?,?,?,?,?,?,?,?)"
         if (err) throw err
         connection.query(
         query,
         [this.#id,this.#title,this.#content,this.#object,this.#startDay,this.#endDay,this.#status,this.#coupon,this.#image],
         (err,rows) =>{
+          console.log(rows);
         if (err) throw err
         // if(rows.length === 0) throw new NotFoundError() 
         resolve(rows)
@@ -89,7 +90,7 @@ const {
                         "thoiGianKetThuc = ?," +
                         "trangThai = ?, " +
                         "maKhuyenMai = ?,"+
-                        "anhDaiDien = ?" +
+                        "anhKhuyenMai = ?" +
                         "WHERE idChuongTrinhKhuyenMai = ?"
         if (err) throw err
         connection.query(

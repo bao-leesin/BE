@@ -44,9 +44,9 @@ const subscribe = async (req,res,next) => {
 }
 
 const requestFilm = async (req,res,next) => {
-    const {idKhachHangYeuCau,phimYeuCau,trangThai} = req.body
+    const {idKhachHangYeuCau,phimYeuCau,ngayYeuCau,trangThai} = req.body
     try {
-        let request = new Request(null,idKhachHangYeuCau,phimYeuCau,trangThai)
+        let request = new Request(null,idKhachHangYeuCau,phimYeuCau,ngayYeuCau,trangThai)
         const output = await request.createRequest()
         if (!output) res.status(400).send({ketQua: "Thất bại"})
         else res.send({ketQua: "Thành công"})

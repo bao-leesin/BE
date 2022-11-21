@@ -2,9 +2,10 @@ const express = require('express')
 const router = express.Router()
 const requestController = require('../controllers/requestController')
 
-router.use('/show',requestController.getAllRequest)
 router.use('/nameFilm/show/:phimYeuCau',requestController.getFilmByNameRequest)
-router.use('/status/update',requestController.updateStatusRequest)
+router.use('/update/status',requestController.updateStatusRequest)
+router.use('/delete/:idYeuCau',requestController.deleteRequest)
+router.use('/show',requestController.getAllRequest)
 
 
 module.exports = router

@@ -25,11 +25,29 @@ const getPromotionsByTitle = async (req,res,next) => {
 }
 
 const createPromotion = async (req,res,next) => {
-    const input = req.body
-    input.idChuongTrinhKhuyenMai = null
+    const {tieuDeChuongTrinhKhuyenMai,
+        noiDungChuongTrinhKhuyenMai,
+        doiTuongKhuyenMai,
+        thoiGianBatDau,
+        thoiGianKetThuc,
+        trangThai,
+        maKhuyenMai,
+        anhKhuyenMai
+    } = req.body
+   
     try {
-        let promotion = new Promotion(input)
-        await promotion.createPromotion()
+        let promotion = new Promotion(
+            null,
+            tieuDeChuongTrinhKhuyenMai,
+            noiDungChuongTrinhKhuyenMai,
+            doiTuongKhuyenMai,
+            thoiGianBatDau,
+            thoiGianKetThuc,
+            trangThai,
+            maKhuyenMai,
+            anhKhuyenMai)
+        const result =  await promotion.createPromotion()
+        console.log(result);
         const output = await promotion.getAllPromotion()
         res.send(output)        
     } catch (error) {

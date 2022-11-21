@@ -105,7 +105,7 @@ class Request{
       query,
       [this.#id, this.#nameFilm, this.#idUser, this.#time, this.#status],
       (err,rows) =>{
-      if (err) throw err
+        if (err) throw err
       resolve(rows)
       })
       connection.release()
@@ -119,11 +119,31 @@ class Request{
       return new Promise((resolve, reject) => {
       pool.getConnection( (err,connection) =>{ 
       try {
-      const query = "UPDATE yeu_cau_phim SET tacVu = ? WHERE idYeuCau = ?"
+      const query = "UPDATE yeu_cau_phim SET trangThai = ? WHERE idYeuCau = ?"
       if (err) throw err
       connection.query(
       query,
       [this.#status, this.#id],
+      (err,rows) =>{
+      if (err) throw err
+      resolve(rows)
+      })
+      connection.release()
+      }catch (error) {
+      reject(error)
+      console.log(error)
+      }})})
+    }
+
+    deleteRequest(){
+      return new Promise((resolve, reject) => {
+      pool.getConnection( (err,connection) =>{ 
+      try {
+      const query = "DELETE FROM yeu_cau_phim WHERE idYeuCau = ?"
+      if (err) throw err
+      connection.query(
+      query,
+      [this.#id],
       (err,rows) =>{
       if (err) throw err
       resolve(rows)

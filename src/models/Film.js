@@ -15,23 +15,30 @@ class Film{
     #id
     #name
     #genre
+    #actor
     #description
     #rating
     #trailer
     #view
     #releaseDay
+    #path
+    #series
+
+
     #idUser
     #image
     #top
-    #path
-    constructor(name,description,rating,trailer,view,releaseDay){
-        this.#name= name
-        this.#description= description
-        this.#rating= rating
-        this.#trailer= trailer
-        this.#view= view
-        this.#releaseDay= releaseDay
-        
+
+    constructor(id,name,description,rating,trailer,view,releaseDay,path,series){
+      this.#id = id  
+      this.#name= name
+      this.#description= description
+      this.#rating= rating
+      this.#trailer= trailer
+      this.#view= view
+      this.#releaseDay= releaseDay
+      this.#path = path
+      this.#series = series
     }
 
     set setId(id) {
@@ -48,14 +55,6 @@ class Film{
   
     get getName() {
       return this.#name;
-    }
-
-    set setGenre(genre) {
-      this.#genre = genre;
-    }
-  
-    get getGenre() {
-      return this.#genre;
     }
 
     set setIdUser(idUser) {
@@ -97,6 +96,14 @@ class Film{
   
     get getImage() {
       return this.#image;
+    }
+
+    set setPath(path) {
+      this.#path = path;
+    }
+  
+    get getPath() {
+      return this.#path;
     }
 
 // Nhóm chức năng tìm kiếm, show dữ liệu
@@ -341,16 +348,15 @@ class Film{
         return new Promise((resolve, reject) => {
         pool.getConnection( (err,connection) =>{ 
         try {
-        const query = "INSERT INTO phim VALUES(?,?,?,?,?,?,?)"
+        const query = "INSERT INTO phim VALUES(?,?,?,?,?,?,?,?,?)"
         if (err) throw err
         connection.query(
         query,
-        [this.#id,this.#name,this.#description,this.#rating,this.#trailer,this.#view,this.#releaseDay],
-        (err,rows) =>{
-        if (err) throw err
-        // if(rows.length === 0) throw new NotFoundError() 
-        this.#id = rows.insertId 
-        resolve(rows.insertId)
+        [this.#id,this.#name,this.#description,this.#rating,this.#trailer,this.#view,this.#releaseDay,this.#path,this.#series],
+        (err,result) =>{
+          if (err) throw err
+         this.#id = result.insertId
+        resolve(result.insertId)
         })
         connection.release()
         }catch (error) {
@@ -380,9 +386,6 @@ class Film{
         }})})
       }
 
-      
-
-      
 
       // *****************************************************************************************
       // Nhóm chức năng Sửa
@@ -391,13 +394,13 @@ class Film{
         return new Promise((resolve, reject) => {
         pool.getConnection( (err,connection) =>{ 
         try {
-        const query = "UPDATE phim SET" +
-                      "tenPhim = ?, moTa = ?, danhGiaPhim = ?, trailer = ?, luotXem = ?, ngayChieu = ?" +
+        const query = "UPDATE phim SET " +
+                      "tenPhim = ?, moTa = ?, danhGiaPhim = ?, trailer = ?, luotXem = ?, ngayChieu = ? , duongDan = ? , phimBo = ? " +
                       "WHERE idPhim = ?"
         if (err) throw err
         connection.query(
         query,
-        [this.#name, this.#description, this.#rating, this.#trailer, this.#view, this.#releaseDay, this.#id],
+        [this.#name, this.#description, this.#rating, this.#trailer, this.#view, this.#releaseDay, this.#path, this.#series, this.#id],
         (err,rows) =>{
         if (err) throw err
         // if(rows.length === 0) throw new NotFoundError() 
