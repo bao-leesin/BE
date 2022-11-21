@@ -11,6 +11,6 @@ router.use('/show/film/rating/:danhGia',filmController.getFilmByRating)
 router.use('/show/subscribed/:idNguoiDung',subscriptionController.getSubOfUser)
 router.use('/show/user/:idNguoiDung',userController.getUserInfo)
 router.use('/show/hotSubscription/',subscriptionController.getHotSub)
-router.use('/show/',userController.getAllUser)
+router.use('/show/user',userController.getAllUser)
 
 module.exports = router
