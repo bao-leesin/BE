@@ -78,7 +78,7 @@ const getFilmByViews = async (req, res, next) => {
   try {
     let film = new Film();
     film.setView = view;
-    const output = film.getFilmByViews();
+    const output = await film.getFilmByViews();
     res.send(output);
   } catch (error) {
     res.status(400).send(error.message);
@@ -90,7 +90,7 @@ const getFilmByRating = async (req, res, next) => {
   try {
     let film = new Film();
     film.setRating = rating;
-    const output = film.getFilmByRatings();
+    const output = await film.getFilmByRatings();
     res.send(output);
   } catch (error) {
     res.status(400).send(error.message);
