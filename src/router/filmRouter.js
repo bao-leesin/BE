@@ -6,8 +6,8 @@ router.use('/search/name/:tenPhim',filmController.getFilmByName)
 router.use('/create', filmController.createFilm)
 router.use('/update', filmController.updateFilm)
 router.use('/delete/:idPhim', filmController.deleteFilm)
-router.use('/playFilm/:id', filmController.playFilmCtrl)
-// viết hoa chữ F nhé
+router.use('/playfilm/:id', filmController.playFilmCtrl)
+
 
 router.use('/show/id/:idPhim', filmController.getFilmById)
 router.use('/show/rating/:idPhim',filmController.showRatingFilm)

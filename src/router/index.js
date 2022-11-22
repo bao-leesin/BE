@@ -26,6 +26,8 @@ function route(app) {
     app.use('/apis/request/', requestRouter)
     app.use('/apis/comment/',commentRouter)
     app.use('/apis/watchfilm/',watchFilmRouter)
+    app.use('/apis/question/',commentRouter)
+
 
 
 }

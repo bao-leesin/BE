@@ -8,8 +8,6 @@ const addNewWatchFilmCtrl =  (req,res,next) => {
     const idUser = object.idKhachHang
     const idEp = object.idTap
     
-
-     
     var currDate = moment().format('YYYY-MM-DD')
     var currTime = moment().format('h:mm:ss')
     console.log('Ngay hien tai: ' + currDate + 'Gio hien tai: '+ currTime)
@@ -77,8 +75,6 @@ const deleteuserWatchHistoryCtrl  = async  (req, res, next)=>{
     try {
          
         watchfilm.setIdUser = params
-          
-      
 
         const userHis = await watchfilm.deleteuserWatchHistory()
          
