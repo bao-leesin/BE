@@ -82,15 +82,15 @@ const {
         return new Promise((resolve, reject) => {
         pool.getConnection( (err,connection) =>{ 
         try {
-        const query = "UPDATE chuong_trinh_khuyen_mai SET" + 
-                        "tieuDeChuongTrinhKhuyenMai = ?, " +
-                        "noiDungChuongTrinhKhuyenMai = ?," +
-                        "doiTuongKhuyenMai = ?," +
-                        "thoiGianBatDau = ?," +
-                        "thoiGianKetThuc = ?," +
-                        "trangThai = ?, " +
-                        "maKhuyenMai = ?,"+
-                        "anhKhuyenMai = ?" +
+        const query = "UPDATE chuong_trinh_khuyen_mai SET " + 
+                        "tieuDeChuongTrinhKhuyenMai = ? , " +
+                        "noiDungChuongTrinhKhuyenMai = ? , " +
+                        "doiTuongKhuyenMai = ? ," +
+                        "thoiGianBatDau = ? , " +
+                        "thoiGianKetThuc = ? , " +
+                        "trangThai = ? , " +
+                        "maKhuyenMai = ? , "+
+                        "anhKhuyenMai = ? " +
                         "WHERE idChuongTrinhKhuyenMai = ?"
         if (err) throw err
         connection.query(

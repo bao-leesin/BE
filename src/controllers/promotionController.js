@@ -56,9 +56,28 @@ const createPromotion = async (req,res,next) => {
 }
 
     const updatePromotion = async (req,res,next) => {
-        const input = req.body
+        const {
+            idChuongTrinhKhuyenMai,
+            tieuDeChuongTrinhKhuyenMai,
+            noiDungChuongTrinhKhuyenMai,
+            doiTuongKhuyenMai,
+            thoiGianBatDau,
+            thoiGianKetThuc,
+            trangThai,
+            maKhuyenMai,
+            anhKhuyenMai
+        } = req.body
         try {
-            let promotion = new Promotion(input)
+            let promotion = new Promotion(
+                idChuongTrinhKhuyenMai,
+                tieuDeChuongTrinhKhuyenMai,
+                noiDungChuongTrinhKhuyenMai,
+                doiTuongKhuyenMai,
+                thoiGianBatDau,
+                thoiGianKetThuc,
+                trangThai,
+                maKhuyenMai,
+                anhKhuyenMai)
             await promotion.updatePromotion()
             const output = await promotion.getAllPromotion()
             res.send(output)
@@ -68,12 +87,11 @@ const createPromotion = async (req,res,next) => {
     }
 
     const updateStatusPromotion = async (req,res,next) => {
-        const idPromotion = req.query.idChuongTrinhKhuyenMai
-        const statusPromotion = req.query.trangThai
+        const {idChuongTrinhKhuyenMai,trangThai} = req.body
         try {
             let promotion = new Promotion()
-            promotion.setId = idPromotion
-            promotion.setStatus = statusPromotion
+            promotion.setId = idChuongTrinhKhuyenMai
+            promotion.setStatus = trangThai
             await promotion.updatePromotion()
             const output = await promotion.getAllPromotion()
             res.send(output)
