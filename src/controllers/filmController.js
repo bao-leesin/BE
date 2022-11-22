@@ -50,10 +50,13 @@ const getFilmById = async (req, res, next) => {
     const actors = await actor.getActorsByIdFilm();
     const genres = await genre.getGenresByIdFilm();
     const images = await image.getImagesOfFilm();
+    const episodes = await film.getEpisodeOfFilm();
 
     films.dienVien = actors;
     films.theLoai = genres;
     films.duongDanAnh = images;
+    films.tapPhim = episodes;
+
     res.send(films);
   } catch (error) {
     res.status(400).send(error.message);
@@ -99,7 +102,7 @@ const getFilmByRating = async (req, res, next) => {
 };
 
 const getFilmByName = async (req, res, next) => {
-  const searchingWord = req.params.keyword;
+  const searchingWord = req.params.tenPhim;
   console.log(searchingWord);
   const film = new Film();
   film.setName = searchingWord;
@@ -110,6 +113,12 @@ const getFilmByName = async (req, res, next) => {
     next(error);
   }
 };
+
+
+
+
+// **********************
+// Nhóm chức năng thêm tạo
 
 const createFilm = async (req, res, next) => {
   const {

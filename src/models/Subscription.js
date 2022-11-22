@@ -71,7 +71,7 @@ class Subscription{
       try {
       const query = "SELECT A.idKhachHang, B.tenGoi, B.giaTien, B.chatLuong, A.ngayDangKiGoi, A.khuyenMaiSuDung " +
       "FROM goi_xem_phim AS B "+
-      "INNER JOIN khach_hang_dang_ki_goi AS A " +
+      "INNER JOIN khach_hang_dang_ki_goi AS A " + 
       "ON A.idGoi = B.idGoi " +
       "WHERE A.idKhachHang = ?"
       if (err) throw err

@@ -150,6 +150,26 @@ class Film{
      console.log(error)
     }})})}
 
+    getEpisodeOfFilm(){
+      return new Promise((resolve, reject) => {
+      pool.getConnection( (err,connection) =>{ 
+      try {
+      const query = "SELECT idTap, tenTap, duongDanPhim FROM phim__phim_bo WHERE idPhim = ?"
+      if (err) throw err
+      connection.query(
+      query,
+      [this.#id],
+      (err,rows) =>{
+      if (err) throw err
+      resolve(rows)
+      })
+      connection.release()
+      }catch (error) {
+      reject(error)
+      console.log(error)
+      }})})
+    }
+
     getFilmByName(){
       return new Promise((resolve, reject) => {
       pool.getConnection( (err,connection) =>{ 
@@ -506,7 +526,7 @@ class Film{
           console.log(error)
           }})})
       }
-
+      
 }
 
 module.exports = Film;
