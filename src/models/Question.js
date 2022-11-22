@@ -1,3 +1,12 @@
+const {
+    ValidationError,
+    FieldRequiredError,
+    AlreadyTakenError,
+    NotFoundError,
+  } = require("../helper/customError");
+  const pool = require("../config/configMysql");
+
+
 class Question{
     #id;
     #title;

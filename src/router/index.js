@@ -11,6 +11,7 @@ const watchFilmRouter  = require('./watchFilmRouter')
 const adminRouter = require('./adminRouter')
 const requestRouter = require('./requestRouter')
 const genreRouter = require('./genreRouter')
+const questionRouter = require('./questionRouter')
 
 function route(app) {
     app.use('/apis/',visitorRouter)   
@@ -26,7 +27,7 @@ function route(app) {
     app.use('/apis/request/', requestRouter)
     app.use('/apis/comment/',commentRouter)
     app.use('/apis/watchfilm/',watchFilmRouter)
-    app.use('/apis/question/',commentRouter)
+    app.use('/apis/question/',questionRouter)
 
 
 

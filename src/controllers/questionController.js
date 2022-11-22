@@ -1,9 +1,9 @@
 const Question = require("../models/Question")
 
 const createQuestion = async (req,res,next) => {
-    const {tieuDeCauHoi,noiDungCauHoi} = req.body
+    const {tieuDeCauHoi,noiDungGiaiPhap} = req.body
     try { 
-        let question = new Question(null,tieuDeCauHoi,noiDungCauHoi)
+        let question = new Question(null,tieuDeCauHoi,noiDungGiaiPhap)
         await  question.createQuestion()
         const result = await question.getAllQuestion()
         res.send(result)
@@ -12,9 +12,9 @@ const createQuestion = async (req,res,next) => {
     }
 }
 const updateQuestion = async (req,res,next) => {
-    const {idCauHoi,tieuDeCauHoi,noiDungCauHoi} = req.body
+    const {idCauHoi,tieuDeCauHoi,noiDungGiaiPhap} = req.body
     try {
-        let question = new Question(idCauHoi,tieuDeCauHoi,noiDungCauHoi)
+        let question = new Question(idCauHoi,tieuDeCauHoi,noiDungGiaiPhap)
         await question.updateQuestion()
         const result = await question.getAllQuestion()
         res.send(result)
