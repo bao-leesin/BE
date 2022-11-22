@@ -47,9 +47,23 @@ const getAllGenres = async (req,res,next) => {
     }
 }
 
+const getFilmByGenres = async (req, res, next) => {
+    const tenTheLoai = req.params.tenTheLoai
+    console.log(tenTheLoai);
+    try {
+     let genre = new Genre()
+     genre.setName = tenTheLoai
+      const films = await genre.getFilmByGenre();
+      res.send(films);
+    } catch (error) {
+      res.status(400).send(error.message);
+    }
+  };
+
 module.exports = {
     createGenre,
     updateGenre,
     deleteGenre,
-    getAllGenres
+    getAllGenres,
+    getFilmByGenres
 }

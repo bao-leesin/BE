@@ -63,19 +63,6 @@ const getFilmById = async (req, res, next) => {
   }
 };
 
-const getFilmByGenres = async (req, res, next) => {
-  const object = req.body;
-  const genres = object.genres;
-  try {
-    let film = new Film();
-    film.setGenre = genres;
-    const films = await film.getFilmByGenres();
-    res.send(films);
-  } catch (error) {
-    res.status(400).send(error.message);
-  }
-};
-
 const getFilmByViews = async (req, res, next) => {
   const view = req.params.luotXem;
   try {
@@ -360,7 +347,6 @@ const playFilmCtrl = async (req, res, next) => {
 
 module.exports = {
   getAllFilm,
-  getFilmByGenres,
   getFilmByName,
   getFilmById,
   getFilmByRating,

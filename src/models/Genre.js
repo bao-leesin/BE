@@ -32,6 +32,26 @@ class Genre{
         return this.#idFilm;
     }
 
+    getFilmByGenre(){
+        return new Promise((resolve, reject) => {
+        pool.getConnection( (err,connection) =>{ 
+        try {
+        const query = "SELECT idPhim, tenPhim, luotXem, danhGiaPhim FROM phim WHERE idPhim IN (SELECT idPhim FROM phim__the_loai WHERE theLoai = ? )"
+        if (err) throw err
+        connection.query(
+        query,
+        [this.#name],
+        (err,rows) =>{
+        if (err) throw err
+        resolve(rows)
+        })
+        connection.release()
+        }catch (error) {
+        reject(error)
+        console.log(error)
+        }})})
+    }
+
     getGenresByIdFilm(){
         return new Promise((resolve, reject) => {
         pool.getConnection( (err,connection) =>{ 
