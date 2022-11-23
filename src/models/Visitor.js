@@ -1,4 +1,4 @@
-const pool = require("../config/configMysql");
+const pool = require("../config/configMysql")
 
 const {
   ValidationError,
@@ -50,6 +50,26 @@ class Visitor {
         }
       });
     });
+  }
+
+  getEmail(){
+    return new Promise((resolve, reject) => {
+    pool.getConnection( (err,connection) =>{ 
+    try {
+    const query = "SELECT email FROM nguoi_dung_co_tai_khoan WHERE tenDangNhap = ?"
+    if (err) throw err
+    connection.query(
+    query,
+    [this.#username],
+    (err,rows) =>{
+    if (err) throw err
+    resolve(rows)
+    })
+    connection.release()
+    }catch (error) {
+    reject(error)
+    console.log(error)
+    }})})
   }
 
 

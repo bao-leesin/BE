@@ -106,6 +106,26 @@ class Question{
         }})})
     }
 
+    getQuestionById(){
+        return new Promise((resolve, reject) => {
+        pool.getConnection( (err,connection) =>{ 
+        try {
+        const query = "SELECT tieuDeCauHoi, NoiDungGiaiPhap FROM cau_hoi_thuong_gap WHERE idCauHoi = ?"
+        if (err) throw err
+        connection.query(
+        query,
+        [this.#id],
+        (err,rows) =>{
+        if (err) throw err
+        resolve(rows)
+        })
+        connection.release()
+        }catch (error) {
+        reject(error)
+        console.log(error)
+        }})})
+    }
+
 
 
 }

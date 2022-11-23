@@ -1,8 +1,8 @@
 const Subscription = require("../models/Subscription")
 
 const createSub = async (req,res,next) => {
-    const {tenGoi,giaTien,chatLuong} = req.body
-    let sub = new Subscription(null,tenGoi,giaTien,chatLuong)
+    const {tenGoi,giaTien,trangThai,chatLuong} = req.body
+    let sub = new Subscription(null,tenGoi,giaTien,trangThai,chatLuong)
     try {
         await sub.createSub()
         const subs = await sub.getAllSub()
@@ -13,8 +13,8 @@ const createSub = async (req,res,next) => {
 }
 
 const updateSub = async (req,res,next) => {
-    const {idGoi,tenGoi,giaTien,chatLuong} = req.body
-    let sub = new Subscription(idGoi,tenGoi,giaTien,chatLuong)
+    const {idGoi,tenGoi,giaTien,trangThai,chatLuong} = req.body
+    let sub = new Subscription(idGoi,tenGoi,giaTien,trangThai,chatLuong)
     try {
         await sub.updateSub()
         const subs = await sub.getAllSub()

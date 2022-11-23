@@ -12,11 +12,13 @@ class Subscription{
     #price;
     #quality;
     #idUser;
+    #status;
 
-    constructor(id,name,price,quality){
+    constructor(id,name,price,status,quality){
         this.#id = id
         this.#name = name
         this.#price = price
+        this.#status = status
         this.#quality = quality
     }
 
@@ -119,11 +121,11 @@ class Subscription{
         return new Promise((resolve, reject) => {
         pool.getConnection( (err,connection) =>{ 
         try {
-        const query = "INSERT INTO goi_xem_phim VALUES(?,?,?,?)"
+        const query = "INSERT INTO goi_xem_phim VALUES(?,?,?,?,?)"
         if (err) throw err
         connection.query(
         query,
-        [this.#id,this.#name,this.#price,this.#quality],
+        [this.#id,this.#name,this.#price,this.#status,this.#quality],
         (err,rows) =>{
         if (err) throw err
         if(rows.length === 0) throw new NotFoundError() 
@@ -137,15 +139,16 @@ class Subscription{
         }})})
     }
 
+
     updateSub(){
         return new Promise((resolve, reject) => {
         pool.getConnection( (err,connection) =>{ 
         try {
-        const query = "UPDATE goi_xem_phim SET tenGoi = ?, giaTien = ?, chatLuong = ? WHERE idGoi = ?"
+        const query = "UPDATE goi_xem_phim SET tenGoi = ?, giaTien = ?, trangThai = ?, chatLuong = ? WHERE idGoi = ?"
         if (err) throw err
         connection.query(
         query,
-        [this.#name,this.#price,this.#quality,this.#id],
+        [this.#name,this.#price,this.#status,this.#quality,this.#id],
         (err,rows) =>{
         if (err) throw err
         if(rows.length === 0) throw new NotFoundError() 

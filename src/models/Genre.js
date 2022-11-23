@@ -97,7 +97,7 @@ class Genre{
         return new Promise((resolve, reject) => {
         pool.getConnection( (err,connection) =>{ 
         try {
-        const query = "INSERT INTO phim__the_loai VALUES(?,?) "
+        const query = "INSERT INTO phim__the_loai VALUES (?,?) "
         if (err) throw err
         connection.query(
         query,

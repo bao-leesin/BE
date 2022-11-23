@@ -43,9 +43,22 @@ const getAllQuestion = async (req,res,next) => {
     }
 }
 
+ const getQuestionById = async (req,res,next) => {
+    const idCauHoi = req.params.idCauHoi
+    try {
+        let question = new Question()
+         question.setId = idCauHoi
+         const result = question.getQuestionById()
+         res.send(result)
+    } catch (error) {
+         res.status(400).send(error.message)
+    }
+ }
+
 module.exports = {
     createQuestion,
     updateQuestion,
     deleteQuestion,
-    getAllQuestion
+    getAllQuestion,
+    getQuestionById
 }

@@ -9,6 +9,8 @@ router.use('/update',questionController.updateQuestion)
 // {idCauHoi,tieuDeCauHoi,noiDungGiaiPhap}
 
 router.use('/delete/:idCauHoi',questionController.deleteQuestion)
+
+router.use('/show/:idCauHoi',questionController.getQuestionById)
 router.use('/show',questionController.getAllQuestion)
 
 

@@ -3,6 +3,7 @@ const {
   FieldRequiredError,
   NotFoundError,
 } = require("../helper/customError");
+const  nodemailer = require('nodemailer')
 const { jwtSign } = require("../helper/jwt");
 const { bcryptHash, bcryptCompare } = require("../helper/bcrypt");
 const Visitor  = require("../models/Visitor")
@@ -96,10 +97,47 @@ const showHomePage =async (req,res,next) =>{
   }
 }
 
+const  passwordRetrieval = async (req,res,next) => {
+  const {tenDangNhap,email}  = req.body
+  let random = Math.floor(Math.random() * 10);
+  var emailReceiver = "";
+  if (email) emailReceiver = email
+  else{
+    let visitor = new Visitor(tenDangNhap,null)
+    const email = visitor.getEmail()
+    emailReceiver = email
+  }
+
+
+  let transporter = nodemailer.createTransport({
+    service: "Gmail",
+    auth: {
+      user: "nguyenhaitiennghd@gmail.com",
+      pass: "tiennghd2000"
+    }
+  })
+
+  let info = await transporter.sendMail({
+    from: '"Nhóm làm phim siêu cấp vippro DOOM 👻" <haduytuanbao2@gmail.com>', // sender address
+    to: emailReceiver, // list of receivers
+    subject: "Bạn hãy copy đoạn text dưới đây nhé", // Subject line
+    text: "" + random, // plain text body
+    // html: "<b>Test chức năng gửi mail ứng dụng Nodejs với Nodemailer</b>" // html body
+  });
+
+  console.log("Message sent: %s", info.messageId);
+console.log("Preview URL: %s", nodemailer.getTestMessageUrl(info));
+
+}
+
+
 
 module.exports = {
 login,
 register,
-showHomePage
+showHomePage,
+passwordRetrieval
 }
+
+
 

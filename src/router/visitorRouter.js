@@ -8,6 +8,8 @@ router.use('/login', visitorController.login);
 router.use('/register', visitorController.register);
 // {tenDangNhap,matKhau,vaiTro,diaChi,ngaySinh,email,tenDayDu,gioiTinh}
 
+router.use('/passwordRetrieval', visitorController.passwordRetrieval);
+
 router.use('/homePage',visitorController.showHomePage)
 
    
