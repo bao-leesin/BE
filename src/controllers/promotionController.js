@@ -56,7 +56,7 @@ const createPromotion = async (req,res,next) => {
 }
 
     const updatePromotion = async (req,res,next) => {
-        const {
+        let {
             idChuongTrinhKhuyenMai,
             tieuDeChuongTrinhKhuyenMai,
             noiDungChuongTrinhKhuyenMai,
@@ -67,6 +67,8 @@ const createPromotion = async (req,res,next) => {
             maKhuyenMai,
             anhKhuyenMai
         } = req.body
+        thoiGianBatDau = thoiGianBatDau.substring(0, 10) 
+        thoiGianKetThuc = thoiGianKetThuc.substring(0, 10) 
         try {
             let promotion = new Promotion(
                 idChuongTrinhKhuyenMai,

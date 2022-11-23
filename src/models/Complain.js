@@ -17,6 +17,14 @@ class Complain{
     #idUser;
     #idAdmin;
 
+
+    constructor(topic,title,content,solution){
+      this.#topic = topic
+      this.#title = title
+      this.#content = content
+      this.#solution = solution
+  }
+
       set setId(id) {
         this.#id = id;
       }
@@ -72,12 +80,7 @@ class Complain{
         return this.#idAdmin;
       }
 
-    constructor(topic,title,content,solution){
-        this.#topic = topic
-        this.#title = title
-        this.#content = content
-        this.#solution = solution
-    }
+    
 
 
 // ***********************************************

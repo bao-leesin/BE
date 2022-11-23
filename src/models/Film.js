@@ -36,7 +36,7 @@ class Film{
       this.#rating= rating
       this.#trailer= trailer
       this.#view= view
-      this.#releaseDay= releaseDay.substring(0, 10)
+      this.#releaseDay= releaseDay
       this.#path = path
       this.#series = series
     }

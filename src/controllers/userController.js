@@ -85,7 +85,8 @@ const rateFilm = async (req,res,next) => {
 }
 
 const updateUserInfo = async (req,res,next) => {
-    const {idNguoiDung,vaiTro,diaChi,ngaySinh,email,tenDayDu,gioiTinh} = req.body
+    let {idNguoiDung,vaiTro,diaChi,ngaySinh,email,tenDayDu,gioiTinh} = req.body
+    ngaySinh = ngaySinh.substring(0, 10)
     try {
         let user = new User(idNguoiDung,null,null,vaiTro,diaChi,ngaySinh,email,tenDayDu,gioiTinh);
         await user.updateUserInfo()

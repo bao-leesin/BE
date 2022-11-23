@@ -122,6 +122,8 @@ const createFilm = async (req, res, next) => {
     duongDanAnh,
   } = req.body;
   
+ 
+
   try {
     let film = new Film(
       null,
@@ -189,7 +191,7 @@ const createFilm = async (req, res, next) => {
 };
 
 const updateFilm = async (req, res, next) => {
-  const {
+  let {
     idPhim,
     tenPhim,
     moTa,
@@ -203,6 +205,9 @@ const updateFilm = async (req, res, next) => {
     theLoai,
     duongDanAnh,
   } = req.body;
+
+  ngayChieu = ngayChieu.substring(0, 10)
+
   try {
     let film = new Film(
       idPhim,
@@ -215,42 +220,43 @@ const updateFilm = async (req, res, next) => {
       duongDan,
       phimBo
     );
+    console.log(dienVien);
     let actor = new Actor();
     let genre = new Genre();
     let image = new Image();
     await film.updateFilm();
     const idFilm = film.getId;
 
-    if (dienVien.length)
-      //    await Promise.all (
-      dienVien.forEach(async (actor) => {
-        let actors = new Actor();
-        actors.setIdFilm = idFilm;
-        actors.setName = actor.tenDienVien;
-        await actors.getIdByName();
-        await actors.updateActorsInFilm();
-      });
+    // if (dienVien.length)
+    //      await Promise.all (
+    //   dienVien.forEach(async (actor) => {
+    //     let actors = new Actor();
+    //     actors.setIdFilm = idFilm;
+    //     actors.setName = actor.tenDienVien;
+    //     await actors.getIdByName();
+    //     await actors.updateActorsInFilm();
+    //   });
     // )
 
 
-    if (theLoai.length)
-      // await Promise.all (
-      theLoai.forEach(async (genre) => {
-        let genres = new Genre();
-        genres.setIdFilm = idFilm;
-        genres.setName = genre.theLoai;
-        await genres.updateGenresInFilm();
-      });
+    // if (theLoai.length)
+    //   await Promise.all (
+    //   theLoai.forEach(async (genre) => {
+    //     let genres = new Genre();
+    //     genres.setIdFilm = idFilm;
+    //     genres.setName = genre.theLoai;
+    //     await genres.updateGenresInFilm();
+    //   });
     // )
 
-    if (duongDanAnh.length)
-      // await Promise.all (
-      duongDanAnh.forEach(async (image) => {
-        let images = new Image();
-        images.setIdFilm = idFilm;
-        images.setLinkImage = image.duongDanAnh;
-        await images.updateImagesInFilm();
-      });
+    // if (duongDanAnh.length)
+    //   await Promise.all (
+    //   duongDanAnh.forEach(async (image) => {
+    //     let images = new Image();
+    //     images.setIdFilm = idFilm;
+    //     images.setLinkImage = image.duongDanAnh;
+    //     await images.updateImagesInFilm();
+    //   });
     // )
 
     actor.setIdFilm = idFilm;
