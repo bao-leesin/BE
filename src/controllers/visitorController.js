@@ -30,7 +30,8 @@ const Image = require("../models/Image");
    }
 
    const register = async (req,res,next) => {
-    const {tenDangNhap,matKhau,vaiTro,diaChi,ngaySinh,email,tenDayDu,gioiTinh} = req.body
+    let {tenDangNhap,matKhau,vaiTro,diaChi,ngaySinh,email,tenDayDu,gioiTinh} = req.body
+    ngaySinh = ngaySinh.substring(0, 10)
     try { 
     const hashPassword = await bcryptHash(matKhau);
     let user = new User(null,tenDangNhap,hashPassword,vaiTro,diaChi,ngaySinh,email,tenDayDu,gioiTinh);

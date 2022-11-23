@@ -108,7 +108,7 @@ const getFilmByName = async (req, res, next) => {
 // Nhóm chức năng thêm tạo
 
 const createFilm = async (req, res, next) => {
-  const {
+  let {
     tenPhim,
     moTa,
     danhGia,
@@ -122,7 +122,7 @@ const createFilm = async (req, res, next) => {
     duongDanAnh,
   } = req.body;
   
- 
+  ngayChieu = ngayChieu.substring(0, 10)
 
   try {
     let film = new Film(
@@ -220,7 +220,7 @@ const updateFilm = async (req, res, next) => {
       duongDan,
       phimBo
     );
-    console.log(dienVien);
+
     let actor = new Actor();
     let genre = new Genre();
     let image = new Image();

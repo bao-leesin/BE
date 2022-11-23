@@ -2,7 +2,6 @@ const User = require("../models/User");
 const Complain = require("../models/Complain");
 const Request = require("../models/Request");
 const Film = require("../models/Film");
-const moment = require("moment/moment");
 
 
 
@@ -30,9 +29,7 @@ const getUserInfo = async (req,res,next) => {
 
 const subscribe = async (req,res,next) => {
     let  {idKhachHang,idGoi,ngayDangKiGoi,khuyenMaiSuDung} = req.body
-  
-    moment(ngayDangKiGoi).utc().format('YYYY/MM/DD');
-    console.log(ngayDangKiGoi);
+    ngayDangKiGoi = ngayDangKiGoi.substring(0, 10)
 
     try {
         let user = new User()
@@ -50,7 +47,8 @@ const subscribe = async (req,res,next) => {
 }
 
 const requestFilm = async (req,res,next) => {
-    const {idKhachHangYeuCau,phimYeuCau,ngayYeuCau,trangThai} = req.body
+    let {idKhachHangYeuCau,phimYeuCau,ngayYeuCau,trangThai} = req.body
+    ngayYeuCau = ngayYeuCau.substring(0, 10)
     try {
         let request = new Request(null,idKhachHangYeuCau,phimYeuCau,ngayYeuCau,trangThai)
         const output = await request.createRequest()

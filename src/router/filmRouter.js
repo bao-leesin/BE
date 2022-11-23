@@ -44,3 +44,4 @@ router.use("/show/rating/:idPhim", filmController.showRatingFilm);
 router.use("/show", filmController.getAllFilm);
 
 module.exports = router;
+
