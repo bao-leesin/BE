@@ -27,6 +27,7 @@ const deleteQuestion = async (req,res,next) => {
     try {
         let question = new Question()
         question.setId = idCauHoi
+        await question.deleteQuestion()
         const result = await question.getAllQuestion()
         res.send(result)
     } catch (error) {

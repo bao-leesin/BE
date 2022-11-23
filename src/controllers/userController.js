@@ -2,6 +2,7 @@ const User = require("../models/User");
 const Complain = require("../models/Complain");
 const Request = require("../models/Request");
 const Film = require("../models/Film");
+const moment = require("moment/moment");
 
 
 
@@ -29,7 +30,10 @@ const getUserInfo = async (req,res,next) => {
 
 const subscribe = async (req,res,next) => {
     let  {idKhachHang,idGoi,ngayDangKiGoi,khuyenMaiSuDung} = req.body
-    // ngayDangKiGoi = ngayDangKiGoi.substring(0, 10)
+  
+    moment(ngayDangKiGoi).utc().format('YYYY/MM/DD');
+    console.log(ngayDangKiGoi);
+
     try {
         let user = new User()
         user.setId = idKhachHang

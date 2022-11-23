@@ -74,7 +74,7 @@ class Question{
         if (err) throw err
         connection.query(
         query,
-        [],
+        [this.#id],
         (err,rows) =>{
         if (err) throw err
         resolve(rows)
