@@ -25,7 +25,8 @@ const getPromotionsByTitle = async (req,res,next) => {
 }
 
 const createPromotion = async (req,res,next) => {
-    const {tieuDeChuongTrinhKhuyenMai,
+    const {
+        tieuDeChuongTrinhKhuyenMai,
         noiDungChuongTrinhKhuyenMai,
         doiTuongKhuyenMai,
         thoiGianBatDau,

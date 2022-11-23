@@ -10,6 +10,9 @@ const notificationController = require('../controllers/notificationController')
 // Hành động
 
 router.use('/push/notification/', notificationController.pushNotification)
+// {idNguoiDung, idThongBao} 
+
+
 
 // Xem
 router.use('/show/film/view/:luotXem',filmController.getFilmByViews)

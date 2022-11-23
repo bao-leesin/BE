@@ -3,7 +3,11 @@ const router = express.Router()
 const questionController = require('../controllers/questionController')
 
 router.use('/create', questionController.createQuestion)
+// {tieuDeCauHoi,noiDungGiaiPhap}
+
 router.use('/update',questionController.updateQuestion)
+// {idCauHoi,tieuDeCauHoi,noiDungGiaiPhap}
+
 router.use('/delete/:idCauHoi',questionController.deleteQuestion)
 router.use('/show',questionController.getAllQuestion)
 
