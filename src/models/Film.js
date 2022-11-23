@@ -526,6 +526,26 @@ class Film{
           console.log(error)
           }})})
       }
+
+      getAllIdFilm(){
+        return new Promise((resolve, reject) => {
+        pool.getConnection( (err,connection) =>{ 
+        try {
+        const query = "SELECT idPhim FROM phim"
+        if (err) throw err
+        connection.query(
+        query,
+        [],
+        (err,rows) =>{
+        if (err) throw err
+        resolve(rows)
+        })
+        connection.release()
+        }catch (error) {
+        reject(error)
+        console.log(error)
+        }})})
+      }
       
 }
 

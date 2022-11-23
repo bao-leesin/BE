@@ -144,6 +144,17 @@ const getLikedFilm = async (req,res,next) => {
         }
 }
 
+const randomizeFilm  = async (req,res,next) => {
+        const  film = new Film()
+        const randomFilm = await film.getAllIdFilm()
+        const randomLength = randomFilm.length
+        const randomNumber = Math.floor(Math.random() * randomLength)
+        const idFilm = randomFilm[randomNumber+1].idPhim
+        film.setId = idFilm
+        const chosenFilm = await film.getFilmById()
+        res.send(chosenFilm)
+}
+
 
 module.exports = {
     getUserInfo,
@@ -155,6 +166,7 @@ module.exports = {
     requestFilm,
     likeFilm,
     unlikeFilm,
-    getLikedFilm
+    getLikedFilm,
+    randomizeFilm
     
 }
