@@ -29,7 +29,7 @@ class User extends Visitor{
         this.#password = password
         this.#role = role
         this.#address =address
-        this.#birthday = birthday
+        this.#birthday = birthday.substring(0, 10)
         this.#email = email
         this.#fullname = fullname
         this.#sex = sex

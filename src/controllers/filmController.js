@@ -121,6 +121,7 @@ const createFilm = async (req, res, next) => {
     theLoai,
     duongDanAnh,
   } = req.body;
+  
   try {
     let film = new Film(
       null,

@@ -35,7 +35,7 @@ const Image = require("../models/Image");
     let user = new User(null,tenDangNhap,hashPassword,vaiTro,diaChi,ngaySinh,email,tenDayDu,gioiTinh);
     const result =  await user.signUp()
     if (!result){
-      res.status(400).send("Bạn đã có tài khoản rồi, cố mà đăng nhập đi. Tôi chưa làm được chức năng lấy lại mật khẩu đâu")
+      res.status(400).send("Sai mật khẩu")
       return
     }
     const newUser = await user.getUserById()

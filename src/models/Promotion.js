@@ -23,8 +23,8 @@ const {
         this.#title=title
         this.#content= content
         this.#object = object
-        this.#startDay = startDay
-        this.#endDay = endDay
+        this.#startDay = startDay.substring(0, 10)
+        this.#endDay = endDay.substring(0, 10)
         this.#status = status
         this.#coupon = coupon
         this.#image = image
