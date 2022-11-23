@@ -28,6 +28,7 @@ router.use('/update/info',userController.updateUserInfo)
 // {idNguoiDung,vaiTro,diaChi,ngaySinh,email,tenDayDu,gioiTinh}
 
 
+
 router.use('/randomize',userController.randomizeFilm)
 router.use('/show/liked/:idNguoiDung', userController.getLikedFilm)
 router.use('/show/info/:idNguoiDung',userController.getUserInfo)

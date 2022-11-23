@@ -197,7 +197,7 @@ class User extends Visitor{
         query,
         [this.#id,this.#idSubscription,this.#subscriptionDay,this.#idPromotion],
         (err,rows) =>{
-        if (err) throw new Error('')
+        if (err) throw err
         resolve(rows)
         })
         connection.release()
@@ -211,6 +211,7 @@ class User extends Visitor{
         return new Promise((resolve, reject) => {
         pool.getConnection( (err,connection) =>{ 
         try {
+          
         const query = "SELECT * FROM nguoi_dung_co_tai_khoan WHERE idNguoiDung = ?"
         if (err) throw err
         connection.query(

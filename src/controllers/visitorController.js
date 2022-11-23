@@ -119,7 +119,7 @@ const  passwordRetrieval = async (req,res,next) => {
   let token = "DOOM" + Math.floor(Math.random() * 10)
 
   let info = await transporter.sendMail({
-    from: '"Nhóm làm phim siêu cấp vippro DOOM 👻" <haduytuanbao2@gmail.com>',
+    from: '"Nhóm làm phim siêu cấp vippro DOOM 👻" <nguyenhaitiennghd@gmail.com>',
     to: emailReceiver, 
     subject: "Bạn hãy copy đoạn text dưới đây nhé", 
     text: token, 
@@ -136,6 +136,4 @@ register,
 showHomePage,
 passwordRetrieval
 }
-
-
 

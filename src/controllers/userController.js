@@ -28,13 +28,15 @@ const getUserInfo = async (req,res,next) => {
 }
 
 const subscribe = async (req,res,next) => {
-    const  {idKhachHang,idGoi,ngayDangKiGoi,khuyenMaiSuDung} = req.body
+    let  {idKhachHang,idGoi,ngayDangKiGoi,khuyenMaiSuDung} = req.body
+    ngayDangKiGoi = ngayDangKiGoi.substring(0, 10)
     try {
         let user = new User()
         user.setId = idKhachHang
         user.setSubsciption = idGoi
         user.setSubsciptionDay = ngayDangKiGoi
         user.setPromotion = khuyenMaiSuDung
+
         const output =  await user.subscribe()
         if (!output) res.status(400).send({ketQua: "Thất bại"})
         else res.send({ketQua: "Thành công"})

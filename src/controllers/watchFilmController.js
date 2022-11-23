@@ -46,7 +46,6 @@ const getUserWatchHistoryCtrl = async  (req, res, next)=>{
 
 const deleteAWatchFilmCtrl = async  (req, res, next)=>{
      
-    
     try {
         const object =  req.body
         const idFilm = object.idPhim
@@ -73,9 +72,7 @@ const deleteuserWatchHistoryCtrl  = async  (req, res, next)=>{
     let watchfilm = new WatchFilms()
     
     try {
-         
         watchfilm.setIdUser = params
-
         const userHis = await watchfilm.deleteuserWatchHistory()
          
         res.send(userHis)
