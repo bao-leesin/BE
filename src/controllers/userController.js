@@ -29,7 +29,7 @@ const getUserInfo = async (req,res,next) => {
 
 const subscribe = async (req,res,next) => {
     let  {idKhachHang,idGoi,ngayDangKiGoi,khuyenMaiSuDung} = req.body
-    ngayDangKiGoi = ngayDangKiGoi.substring(0, 10)
+    // ngayDangKiGoi = ngayDangKiGoi.substring(0, 10)
     try {
         let user = new User()
         user.setId = idKhachHang
