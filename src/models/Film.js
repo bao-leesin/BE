@@ -15,7 +15,6 @@ class Film{
     #id
     #name
     #genre
-    #actor
     #description
     #rating
     #trailer
@@ -63,10 +62,6 @@ class Film{
   
     get getIdUser() {
       return this.#idUser;
-    }
-
-    set setView(view) {
-      this.#view = view;
     }
 
     get getView() {
@@ -337,27 +332,27 @@ class Film{
         }})})
       }
 
-      showRatingFilm(){
-        return new Promise((resolve, reject) => {
-        pool.getConnection( (err,connection) =>{ 
-        try {
-        const query = "SELECT round(AVG(soSaoDanhGia)) AS tb FROM khach_hang_danh_gia WHERE idPhim = ?"
-        if (err) throw err
-        connection.query(
-        query,
-        [this.#id],
-        (err,rows) =>{
-        if (err) throw err
-        // if(rows.length === 0) throw new NotFoundError() 
-        this.#rating = rows[0].tb
-        resolve(this.#rating)
-        })
-        connection.release()
-        }catch (error) {
-        reject(error)
-        console.log(error)
-        }})})
-      }
+      // showRatingFilm(){
+      //   return new Promise((resolve, reject) => {
+      //   pool.getConnection( (err,connection) =>{ 
+      //   try {
+      //   const query = "SELECT round(AVG(soSaoDanhGia)) AS tb FROM khach_hang_danh_gia WHERE idPhim = ?"
+      //   if (err) throw err
+      //   connection.query(
+      //   query,
+      //   [this.#id],
+      //   (err,rows) =>{
+      //   if (err) throw err
+      //   // if(rows.length === 0) throw new NotFoundError() 
+      //   this.#rating = rows[0].tb
+      //   resolve(this.#rating)
+      //   })
+      //   connection.release()
+      //   }catch (error) {
+      //   reject(error)
+      //   console.log(error)
+      //   }})})
+      // }
 
      
 

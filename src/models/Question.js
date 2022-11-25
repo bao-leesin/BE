@@ -90,7 +90,7 @@ class Question{
         return new Promise((resolve, reject) => {
         pool.getConnection( (err,connection) =>{ 
         try {
-        const query = "SELECT * FROM cau_hoi_thuong_gap"
+        const query = "SELECT idCauHoi, tieuDeCauHoi FROM cau_hoi_thuong_gap"
         if (err) throw err
         connection.query(
         query,

@@ -7,29 +7,30 @@ const {
   NotFoundError,
 } = require("../helper/customError");
 class Visitor {
-  #username;
-  #password;
+  _username;
+  _password;
 
   constructor(username, password) {
-    this.#username = username;
-    this.#password = password;
+    this._username = username;
+    this._password = password;
   }
 
   set setUsername(username) {
-    this.#username = username;
-  }
-
-  set setPassword(password) {
-    this.#password = password;
+    this._username = username;
   }
 
   get getUsername() {
-    return this.#username;
+    return this._username;
+  }
+
+
+  set setPassword(password) {
+    this._password = password;
   }
 
   get getPassword() {
     
-    return this.#password;
+    return this._password;
   }
 
   signIn() {
@@ -39,7 +40,7 @@ class Visitor {
           const query =
             "Select * from nguoi_dung_co_tai_khoan where tenDangNhap = ?";
           if (err) throw err;
-          connection.query(query, [this.#username], (err, rows) => {
+          connection.query(query, [this._username], (err, rows) => {
             if (err) throw err;
            resolve(rows[0]);
           });
@@ -60,7 +61,7 @@ class Visitor {
     if (err) throw err
     connection.query(
     query,
-    [this.#username],
+    [this._username],
     (err,rows) =>{
     if (err) throw err
     resolve(rows)

@@ -1,6 +1,4 @@
 const  Visitor  = require("./Visitor");
-
-
 const {
   ValidationError,
   FieldRequiredError,
@@ -10,8 +8,6 @@ const {
 const pool = require("../config/configMysql");
 class User extends Visitor{
     #id
-    #username;
-    #password;
     #role
     #address;
     #birthday;
@@ -20,13 +16,11 @@ class User extends Visitor{
     #sex;
     #idFilm;
     #idSubscription;
-    #subscriptionDay;
+    #subscribedDay;
     #idPromotion
     constructor(id,username,password,role,address,birthday,email,fullname,sex){
-        super()
+        super(username,password)
         this.#id = id
-        this.#username = username
-        this.#password = password
         this.#role = role
         this.#address =address
         this.#birthday = birthday
@@ -36,28 +30,11 @@ class User extends Visitor{
     }
 
     set setId(id){
-        this.#id = id
+      this.#id = id
     }
 
     get getId(){
         return this.#id
-    }
-
-    set setUsername(username) {
-      super.setUsername(username)
-      
-    }
-  
-    set setPassword(password) {
-     super.setPassword(password)
-    }
-  
-    get getUsername() {
-      super.getUsername()
-    }
-  
-    get getPassword() {
-      super.getPassword()
     }
 
     set setIdFilm(idFilm){
@@ -125,11 +102,11 @@ class User extends Visitor{
     }
 
     set setSubsciptionDay(subscriptionDay){
-      this.#subscriptionDay = subscriptionDay
+      this.#subscribedDay = subscriptionDay
     }
 
     get getSubsciptionDay(){
-      return this.#subscriptionDay
+      return this.#subscribedDay
     }
 
     set setPromotion(Promotion){
@@ -152,7 +129,7 @@ class User extends Visitor{
               const query =
                 "Select idNguoiDung from nguoi_dung_co_tai_khoan where tenDangNhap = ?";
               if (err) throw err;
-              connection.query(query, [this.#username], (err, rows) => {
+              connection.query(query, [this.username], (err, rows) => {
                 if (err) throw err;
                 if (rows.length !== 0) 
                 resolve(false)
@@ -163,8 +140,8 @@ class User extends Visitor{
                 "INSERT INTO nguoi_dung_co_tai_khoan VALUES (?,?,?,?,?,?,?,?,?)",
                 [
                   this.#id,
-                  this.#username,
-                  this.#password,
+                  this._username,
+                  this._password,
                   this.#role,
                   this.#address,
                   this.#birthday,
@@ -195,7 +172,7 @@ class User extends Visitor{
         if (err) throw err
         connection.query(
         query,
-        [this.#id,this.#idSubscription,this.#subscriptionDay,this.#idPromotion],
+        [this.#id,this.#idSubscription,this.#subscribedDay,this.#idPromotion],
         (err,rows) =>{
         if (err) throw err
         resolve(rows)

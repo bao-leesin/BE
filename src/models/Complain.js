@@ -221,7 +221,7 @@ class Complain{
 
     
 
-    createComplainListWithTopic(){
+    setTopicForComplain(){
         return new Promise((resolve, reject) => {
         pool.getConnection( (err,connection) =>{ 
         try {

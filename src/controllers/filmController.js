@@ -173,7 +173,6 @@ const createFilm = async (req, res, next) => {
         await images.createFilmImages();
       });
     // )
-
     actor.setIdFilm = idFilm;
     genre.setIdFilm = idFilm;
     image.setIdFilm = idFilm;
