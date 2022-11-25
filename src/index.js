@@ -6,8 +6,7 @@ const morgan = require('morgan')
 const app = express()
 
 const routes = require('./router')
-const Visitor = require('./models/Visitor')
-const Admin = require('./models/Admin')
+
 const port = process.env.PORT || 3003
 
 app.all('/', function(req, res, next) {
@@ -32,11 +31,7 @@ app.use(morgan('combined'))
 
 routes(app)
  
-let visitor = new Visitor("us1","pw1")
-let admin = new Admin(1,"us2","pw2")
 
-console.log(visitor);
-console.log(admin);
 
 app.listen(port, () => { 
     console.log('Server is running on http://localhost:' + port);
