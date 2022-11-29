@@ -1,17 +1,16 @@
 const express = require('express')
 const router = express.Router()
 const commentController = require('../controllers/commentController')
-const { verifyToken } = require('../middleware/authentication')
 
- 
-var app = express()
-var bodyParser = require('body-parser')
-var urlencoded = app.use(bodyParser.urlencoded({extended: false}))
-var jsonparser = app.use(bodyParser.json())
+router.post('/create',  commentController.createComment)
+// {idPhim,idNguoiDung,binhLuan}
 
-router.post('/add',  commentController.addNewComment)
-router.get('/getallofone/:id',commentController.getAllCommentsofOneFilm)
-router.post('/updateacomt',commentController.updateCom)
-router.post('/deleteacomt',commentController.deleteCommtCtrl)
+
+router.put('/update', commentController.updateComment)
+// {idBinhLuan,idPhim,idNguoiDung,noiDungBinhLuan}
+
+router.delete('/delete/:idBinhLuan', commentController.deleteComment)
+
+router.get('/show/:idPhim',commentController.getCommentByIdFilm)
 
 module.exports = router

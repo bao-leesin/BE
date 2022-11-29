@@ -2,9 +2,13 @@ const User = require("../models/User");
 const Complain = require("../models/Complain");
 const Request = require("../models/Request");
 const Film = require("../models/Film");
+const Rating = require("../models/Rating");
+const moment = require("moment");
 
 
-
+ 
+    // **********************
+// Nhóm chức năng tìm kiếm
 const getAllUser = async (req,res,next) => {
     try {
         let user = new User()
@@ -27,9 +31,28 @@ const getUserInfo = async (req,res,next) => {
     }
 }
 
+const getLikedFilm = async (req,res,next) => {
+    const idNguoiDung = req.params.idNguoiDung
+    try {
+        let user = new User()
+        user.setId = idNguoiDung
+        const output = await user.getLikedFilm()
+        console.log(output);
+        if(!output.length) res.send('')
+        else res.send(output)
+    } catch (error) {
+        res.status(400).send(error.message)        
+    }
+}
+
+
+
+// **********************
+// Nhóm chức năng thêm tạo
+
 const subscribe = async (req,res,next) => {
-    let  {idKhachHang,idGoi,ngayDangKiGoi,khuyenMaiSuDung} = req.body
-    ngayDangKiGoi = ngayDangKiGoi.substring(0, 10)
+    const  {idKhachHang,idGoi,khuyenMaiSuDung} = req.body
+    const ngayDangKiGoi  = moment().format('YYYY-MM-DD')  
 
     try {
         let user = new User()
@@ -46,7 +69,7 @@ const subscribe = async (req,res,next) => {
     }
 }
 
-const requestFilm = async (req,res,next) => {
+const request = async (req,res,next) => {
     let {idKhachHangYeuCau,phimYeuCau,ngayYeuCau,trangThai} = req.body
     ngayYeuCau = ngayYeuCau.substring(0, 10)
     try {
@@ -75,18 +98,24 @@ const complain = async (req,res,next) => {
 const rateFilm = async (req,res,next) => {
     const {idKhachHang,idPhim,soSaoDanhGia} = req.body
     try {
+        let rating = new Rating(idKhachHang,idPhim,soSaoDanhGia)
         let film = new Film()
-        film.setIdUser = idKhachHang
         film.setId = idPhim
-        film.setRating = soSaoDanhGia
-        await film.rateFilm()
-        await film.updateRatingFilm()
-        const rating = await film.showRatingFilm()
-        res.send({danhGia: rating})            
+        await rating.rateFilm()
+        const ratingFilm =  await film.updateRatingFilm()
+        const ratingNumber = await rating.amountOfRating()
+        res.send({  
+            danhGia: ratingFilm,
+            soLuongDanhGia: ratingNumber
+        })            
     } catch (error) {
         res.status(400).send(error.message)
     }
 }
+
+
+// **********************
+// Nhóm chức năng cập nhật
 
 const updateUserInfo = async (req,res,next) => {
     let {idNguoiDung,vaiTro,diaChi,ngaySinh,email,tenDayDu,gioiTinh} = req.body
@@ -136,19 +165,7 @@ const unlikeFilm = async (req,res,next) => {
             res.status(400).send(error.message)            
         }
 }
-const getLikedFilm = async (req,res,next) => {
-        const idNguoiDung = req.params.idNguoiDung
-        try {
-            let user = new User()
-            user.setId = idNguoiDung
-            const output = await user.getLikedFilm()
-            console.log(output);
-            if(!output.length) res.send('')
-            else res.send(output)
-        } catch (error) {
-            res.status(400).send(error.message)        
-        }
-}
+
 
 const randomizeFilm  = async (req,res,next) => {
         const  film = new Film()
@@ -169,7 +186,7 @@ module.exports = {
     subscribe,
     complain,
     rateFilm,
-    requestFilm,
+    request,
     likeFilm,
     unlikeFilm,
     getLikedFilm,

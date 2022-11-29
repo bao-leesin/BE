@@ -1,112 +1,67 @@
 
-const Comments = require("../models/Comments")
+const Comment = require("../models/Comment")
 var moment = require('moment');
 
-const addNewComment =  (req,res,next) => {
 
-    const object =  req.body
-    const idPhim = object.idPhim
-    const idKhachHang = object.idKhachHang
-    const binhLuan = object.binhLuan
-    const ngayDangBinhLuan = object.ngayDangBinhLuan
+const createComment = async (req,res,next) => {
+    const {idPhim,idNguoiDung,binhLuan} = req.body
+    const ngayBinhLuan = moment().format('YYYY-MM-DD')
 
-     
-    var CurrentDate = moment().format('YYYY-MM-DD h:mm:ss')
-    console.log('Gio hien tai: ', CurrentDate)
+    let comment = new Comment(null,idPhim,idNguoiDung,binhLuan,ngayBinhLuan)
+    const output = await comment.createComment()
+    if (!!output.insertId) {
+        res.send({ketQua: "Thành công"})
+    } else {
+        res.status(400).send({ketQua: "Thất bại"})
+    }
 
-   // let actor = new Actor()
-   // const idFilm = 4
-   // actor.setName = "Camila Mendes"  
-  //  const kq = await actor.getIdByName()
-
-    let comment = new Comments()
-    comment.setIdUser = idKhachHang
-    comment.setIdFilm = idPhim
-    comment.setContent = binhLuan 
-    comment.setPostDate = CurrentDate
-
-    var str = 'id phim: ' + idPhim +', id khach hang: ' + idKhachHang
-    + ', binh luan: '+binhLuan+', ngay dang: '+CurrentDate
-
-    let add = comment.addNewComment()
-    res.send(add)
-
-    //res.send(str)
 }
 
-const getAllCommentsofOneFilm = async  (req, res, next)=>{
-    const params = req.params
-    let comments = new Comments()
-    
-    try {
-        const idFilm = params.id
-        comments.setIdFilm = idFilm
-       // res.send(idFilm)
-        const listofComs = await comments.getAllComOfOneFilm()
-        console.log('ngay dang: ', listofComs)
-        res.send(listofComs)
-    } catch (error) {
-        console.log('Gap phai loi: ', error)
+const updateComment = async (req,res,next) => {
+    const {idBinhLuan,idPhim,idNguoiDung,noiDungBinhLuan} = req.body
+    const ngayBinhLuan = moment().format('YYYY-MM-DD')
+    let comment = new Comment(idBinhLuan,idPhim,idNguoiDung,noiDungBinhLuan,ngayBinhLuan)
+    const output = await comment.updateComment()
+    if (!!output) {
+        res.send({ketQua: "Thành công"})
+    } else {
+        res.status(400).send({ketQua: "Thất bại"})
     }
 }
 
-const updateCom = async (req, res, next) => {
-    const object =  req.body
-
-    const idPhim = object.idPhim
-    const idKhachHang = object.idKhachHang
-    const binhLuan = object.binhLuan
-    const ngayDangBinhLuan = object.ngayDangBinhLuan
-
-    var str = 'id phim: ' + idPhim +', id khach hang: ' + idKhachHang
-    + ', binh luan: '+binhLuan
-
-    console.log(str)
-
-    let comment = new Comments()
-    comment.setIdUser = idKhachHang
-    comment.setIdFilm = idPhim
-    comment.setContent = binhLuan 
-    comment.setPostDate = ngayDangBinhLuan
-
-    try {
-        result = await comment.updateComment()
-        res.send(result)
-    } catch (error) {
-        console.log(error)
+const deleteComment = async (req,res,next) => {
+    const idBinhLuan = req.params.idBinhLuan
+    let comment = new Comment()
+    comment.setId = idBinhLuan
+    const output = await comment.deleteComment()
+    if (!!output) {
+        res.send({ketQua: "Thành công"})
+    } else {
+        res.status(400).send({ketQua: "Thất bại"})
     }
 }
 
-const deleteCommtCtrl = async (req, res, next) => {
-    const object =  req.body
-
-    const idPhim = object.idPhim
-    const idKhachHang = object.idKhachHang
-
-    var str = 'id phim: ' + idPhim +', id khach hang: ' + idKhachHang
-    
-
-    console.log(str)
-
-    let comment = new Comments()
-    comment.setIdUser = idKhachHang
+const getCommentByIdFilm = async (req,res,next) => {
+    const idPhim = req.params.idPhim
+    let comment = new Comment()
     comment.setIdFilm = idPhim
-     
-
-    try {
-        result = await comment.deleteCommt()
-        res.send(result)
-    } catch (error) {
-        console.log(error)
-    }
+    const output = await comment.getCommentByIdFilm()
+   if (output.length !== 0) {
+    const number = await comment.getAmountCommentOfFilm()
+    output.push(number.soLuong) 
+    res.send(output)
+   } else {
+    res.status(400).send('')
+   }
 }
 
 
 
 
 module.exports = {
-    addNewComment,
-    getAllCommentsofOneFilm,
-    updateCom,
-    deleteCommtCtrl
+   createComment,
+   updateComment,
+   deleteComment,
+   getCommentByIdFilm,
+
 }

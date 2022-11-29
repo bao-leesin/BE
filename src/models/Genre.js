@@ -56,7 +56,7 @@ class Genre{
         return new Promise((resolve, reject) => {
         pool.getConnection( (err,connection) =>{ 
         try {
-        const query = "SELECT theLoai from phim__the_loai where idPhim = ?" 
+        const query = "SELECT tenTheLoai FROM the_loai WHERE idTheLoai IN  (SELECT idTheLoai FROM phim__the_loai where idPhim = ?)" 
         if (err) throw err
         connection.query(
         query,

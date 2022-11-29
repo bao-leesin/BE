@@ -53,36 +53,35 @@ const Image = require("../models/Image");
 const showHomePage =async (req,res,next) =>{
   try {
   let film = new Film();
-
   const hotFilm = await film.getTopView()
   const appreciatedFilm = await film.getTopRating()
   const newFilm = await film.getTopNew();
-
+  
   const phimHot = await Promise.all(
     hotFilm.map(async film => {
-    let image = new Image()
-    image.setIdFilm = film.idPhim
-    const images =   await image.getImageOfFilm()
-    film = {...film,...images}
+        let image = new Image(); 
+        image.setIdFilm = film.idPhim;
+        const duongDanAnh = await image.getImageOfFilm()
+        film = {...film,...duongDanAnh}
     return film
   }))
 
 
   const phimHay = await Promise.all(
     appreciatedFilm.map(async film => {
-    let image = new Image()
-    image.setIdFilm = film.idPhim
-    const images =   await image.getImageOfFilm()
-    film = {...film,...images}
+      let image = new Image(); 
+      image.setIdFilm = film.idPhim
+      const duongDanAnh = await image.getImageOfFilm()
+      film = {...film,...duongDanAnh}
     return film
   }))
 
   const phimMoi = await Promise.all(
     newFilm.map(async film => {
-    let image = new Image()
-    image.setIdFilm = film.idPhim
-    const images =   await image.getImageOfFilm()
-    film = {...film,...images}
+      let image = new Image(); 
+      image.setIdFilm = film.idPhim
+      const duongDanAnh = await image.getImageOfFilm()
+      film = {...film,...duongDanAnh}
     return film
   }))
 

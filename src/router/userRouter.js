@@ -3,7 +3,7 @@ const router = express.Router()
 const userController = require('../controllers/userController')
 const subscriptionController = require('../controllers/subscriptionController')
 const notificationController = require('../controllers/notificationController')
-
+const filmController = require('../controllers/filmController')
 
 
 router.use('/create/subscribe', userController.subscribe)
@@ -12,7 +12,7 @@ router.use('/create/subscribe', userController.subscribe)
 router.use('/create/rate', userController.rateFilm)
 // {idKhachHang,idPhim,soSaoDanhGia}
 
-router.use('/create/request', userController.requestFilm)
+router.use('/create/request', userController.request)
 // {idKhachHangYeuCau,phimYeuCau,ngayYeuCau,trangThai} 
 
 router.use('/create/complain', userController.complain)
@@ -28,7 +28,7 @@ router.use('/update/info',userController.updateUserInfo)
 // {idNguoiDung,vaiTro,diaChi,ngaySinh,email,tenDayDu,gioiTinh}
 
 
-
+router.get('/show/listFilm/',filmController.getListFilm)
 router.use('/randomize',userController.randomizeFilm)
 router.use('/show/liked/:idNguoiDung', userController.getLikedFilm)
 router.use('/show/info/:idNguoiDung',userController.getUserInfo)

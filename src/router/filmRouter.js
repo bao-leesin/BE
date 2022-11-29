@@ -36,10 +36,10 @@ router.use("/update", filmController.updateFilm);
 //     duongDanAnh,
 //   }
 
+
 router.use("/delete/:idPhim", filmController.deleteFilm);
 router.use("/playfilm/:id", filmController.playFilmCtrl);
-
-router.use("/show/id/:idPhim", filmController.getFilmById);
+router.use("/show/:idPhim", filmController.getFilmById);
 router.use("/show/rating/:idPhim", filmController.showRatingFilm);
 router.use("/show", filmController.getAllFilm);
 

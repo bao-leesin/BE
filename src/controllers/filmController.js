@@ -9,21 +9,11 @@ const getAllFilm = async (req, res, next) => {
     const films = await film.getAllFilm();
     const data = await Promise.all(
       films.map(async (film) => {
-        let actor = new Actor();
-        let genre = new Genre();
         let films = new Film();
-        let image = new Image();
+        let image = new Image(); 
         films.setId = film.idPhim;
-        actor.setIdFilm = film.idPhim;
-        genre.setIdFilm = film.idPhim;
         image.setIdFilm = film.idPhim;
-        const actors = await actor.getActorsByIdFilm();
-        film.dienVien = actors;
-        const genres = await genre.getGenresByIdFilm();
-        film.theLoai = genres;
-        const images = await image.getImageOfFilm();
-        film.duongDanAnh = images;
-        // console.log(film);
+        const duongDanAnh = await image.getImageOfFilm()
         return film;
       })
     );
@@ -32,6 +22,26 @@ const getAllFilm = async (req, res, next) => {
     res.status(400).send(error.message);
   }
 };
+
+const getListFilm = async (req,res,next) => {
+  let film = new Film();
+  try {
+    const films = await film.getListFilm()
+    const data = await Promise.all(
+      films.map(async (film) => {
+        let image = new Image(); 
+        image.setIdFilm = film.idPhim;
+        image.setRole = "banner"
+        const duongDanAnh = await image.getImageOfFilm()
+        film = { ...film,...duongDanAnh}
+        return film;
+      })
+    );
+    res.send(data)
+  } catch (error) {
+    res.status(400).send(error.message);
+  }
+}
 
 const getFilmById = async (req, res, next) => {
   let film = new Film();
@@ -46,18 +56,39 @@ const getFilmById = async (req, res, next) => {
     genre.setIdFilm = idFilm;
     image.setIdFilm = idFilm;
 
-    const films = await film.getFilmById();
+
+    const data = await film.getFilmById();
     const actors = await actor.getActorsByIdFilm();
     const genres = await genre.getGenresByIdFilm();
-    const images = await image.getImagesOfFilm();
+    const bannerImage = await image.getImageOfFilm();
+    const detailImage = await image.getImagesOfFilm();
     const episodes = await film.getEpisodeOfFilm();
 
-    films.dienVien = actors;
-    films.theLoai = genres;
-    films.duongDanAnh = images;
-    films.tapPhim = episodes;
+    const dienVien = actors.map(actor => {
+      return actor.tenDienVien
+    })
 
-    res.send(films);
+    const theLoai = genres.map(genre => {
+      return genre.tenTheLoai
+    })
+
+    const anhDaiDien = bannerImage.duongDanAnh
+
+    const anhMota = detailImage.map(image => {
+      return image.duongDanAnh
+    })
+
+    const duongDanAnh = {
+      anhDaiDien : anhDaiDien,
+      anhMota : anhMota 
+    }
+
+    data.dienVien = dienVien;
+    data.theLoai = theLoai;
+    data.duongDanAnh = duongDanAnh;
+    data.tapPhim = episodes;
+
+    res.send(data);
   } catch (error) {
     res.status(400).send(error.message);
   }
@@ -357,6 +388,7 @@ module.exports = {
   getFilmById,
   getFilmByRating,
   getFilmByViews,
+  getListFilm,
   createFilm,
   updateFilm,
   deleteFilm,

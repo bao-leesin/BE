@@ -1,51 +1,26 @@
-const {
-    ValidationError,
-    FieldRequiredError,
-    AlreadyTakenError,
-    NotFoundError,
-  } = require("../helper/customError");
-  const pool = require("../config/configMysql");
-const e = require("express");
-const Film = require("./Film");
-const User = require("./User");
-
-class Comments{
-    #idComment
+const pool = require("../config/configMysql");
+class Comment{
+    #id
     #content
     #postDate
     #idFilm
     #idUser
 
-    constructor(idComment, content, postDate, idFilm, idUser){
-    this.#idComment = idComment
+    constructor(id,  idFilm, idUser,content, postDate){
+    this.#id = id
     this.#postDate = postDate
     this.#content = content
     this.#idFilm = idFilm
     this.#idUser = idUser
     }
 
-    set setIdComment(idComment){
-        this.#idComment = idComment
+    
+    set setId(id){
+        this.#id = id
     }
 
-    get getIdComment(){
-        return this.#idComment;
-    }
-
-    get getPostDate(){
-        return this.#postDate;
-    }
-
-    set setPostDate(postDate){
-        this.#postDate = postDate
-    }
-
-    set setContent(content){
-        this.#content = content
-    }
-
-    get getContent(){
-        return this.#content;
+    get getId(){
+        return this.#id;
     }
 
     set setIdFilm(idFilm){
@@ -64,46 +39,43 @@ class Comments{
         return this.#idUser;
     }
 
-    addNewComment(){
-        return new Promise((resolve, reject) => {
-            pool.getConnection((err, con) => {
-                try {
-                    const query = "INSERT INTO `phim__binh_luan`(`idPhim`, `idKhachHang`, `binhLuan`, `ngayDangBinhLuan`)" 
-                    +"VALUES (?,?,?,?)"
-                    if(err) throw err
-                    con.query(
-                        query,
-                        [this.#idFilm, this.#idUser, this.#content, this.#postDate],
-                        (err, row) => {
-                            if(err) throw err
-                            // if(row.length === 0) throw new NotFoundError()
-                            resolve(row)
-                        }
-                    )
-                    con.release()
-                } catch (error) {
-                    reject(error)
-                    console.log('Loi xay ra khi them binh luan')
-                }
-            })
-        })
+    get getPostDate(){
+        return this.#postDate;
     }
 
-    getAllComOfOneFilm(){
+    set setPostDate(postDate){
+        this.#postDate = postDate
+    }
+
+    set setContent(content){
+        this.#content = content
+    }
+
+    get getContent(){
+        return this.#content;
+    }
+
+    
+// **********************
+// Nhóm chức năng xem
+
+        getCommentByIdFilm(){
         return new Promise((resolve, reject) => {
             pool.getConnection((err, con) => {
                 try {
-                    const query = "SELECT `idPhim`, `idKhachHang`, `binhLuan`, `ngayDangBinhLuan` FROM `phim__binh_luan` WHERE " 
-                    +"`idPhim` = ?"
+                    const query = "SELECT B.idBinhLuan, A.tenDayDu, B.binhLuan, B.ngayDangBinhLuan FROM " +
+                    "nguoi_dung_co_tai_khoan AS A " +
+                    "INNER JOIN phim__binh_luan AS B " +
+                    "ON  A.idNguoiDung = B.idNguoiDung " +
+                    "WHERE idPhim = ?"
                     if(err) throw err
                     con.query(
                         query,
                         [this.#idFilm],
                         (err, row) => {
                             if(err) throw err
-                           if(row.length === 0) throw new NotFoundError()
+                        //    if(row.length === 0) throw new NotFoundError()
                             resolve(row)
-                            
                         }
                     )
                     con.release()
@@ -115,17 +87,64 @@ class Comments{
             })
         })
     }
+
+    getAmountCommentOfFilm(){
+        return new Promise((resolve, reject) => {
+        pool.getConnection( (err,connection) =>{ 
+        try {
+        const query = "SELECT COUNT(idBinhLuan) AS soLuong FROM phim__binh_luan WHERE idPhim = ?"
+        if (err) throw err
+        connection.query(
+        query,
+        [this.#idFilm],
+        (err,rows) =>{
+        if (err) throw err
+        resolve(rows[0])
+        })
+        connection.release()
+        }catch (error) {
+        reject(error)
+        console.log(error)
+        }})})
+    }
+
+    // ///////////////////////////////////
+
+    createComment(){
+        return new Promise((resolve, reject) => {
+            pool.getConnection((err, con) => {
+                try {
+                    const query = "INSERT INTO phim__binh_luan VALUES (?,?,?,?,?)"
+                    if(err) throw err
+                    con.query(
+                        query,
+                        [this.#id,this.#idFilm, this.#idUser, this.#content, this.#postDate],
+                        (err, row) => {
+                            if(err) throw err
+                            // if(row.length === 0) throw new NotFoundError()
+                            resolve(row)
+                        }
+                    )
+                    con.release()
+                } catch (error) {
+                    reject(error)
+                   
+                }
+            })
+        })
+    }
+
 
     updateComment(){
         return new Promise((resolve, reject) => {
             pool.getConnection((err, con) => {
                 try {
                     const query = "UPDATE `phim__binh_luan` SET "+
-                    "`binhLuan`=?,`ngayDangBinhLuan`=? WHERE `idPhim` = ? AND `idKhachHang`=?"
+                    "`binhLuan`=?,`ngayDangBinhLuan`=? WHERE idBinhLuan = ?"
                     if(err) throw err
                     con.query(
                         query,
-                        [this.#content, this.#postDate, this.#idFilm, this.#idUser],
+                        [this.#content, this.#postDate, this.#id],
                         (err, row) => {
                             if(err) throw err
                             // if(row.length === 0) throw new NotFoundError()
@@ -141,15 +160,15 @@ class Comments{
         })
     }
 
-    deleteCommt(){
+    deleteComment(){
         return new Promise((resolve, reject) => {
             pool.getConnection((err, con) => {
                 try {
-                    const query = "DELETE FROM `phim__binh_luan`  WHERE `idPhim` = ? AND `idKhachHang`=?"
+                    const query = "DELETE FROM phim__binh_luan  WHERE idBinhLuan = ?"
                     if(err) throw err
                     con.query(
                         query,
-                        [this.#idFilm, this.#idUser],
+                        [this.#id],
                         (err, row) => {
                             if(err) throw err
                             // if(row.length === 0) throw new NotFoundError()
@@ -165,10 +184,28 @@ class Comments{
         })
     }
 
-
+    deleteAllCommentByIdFilm(){
+        return new Promise((resolve, reject) => {
+        pool.getConnection( (err,connection) =>{ 
+        try {
+        const query = "DELETE FROM phim__binh_luan  WHERE idPhim = ?"
+        if (err) throw err
+        connection.query(
+        query,
+        [this.#idFilm],
+        (err,rows) =>{
+        if (err) throw err
+        resolve(rows)
+        })
+        connection.release()
+        }catch (error) {
+        reject(error)
+        console.log(error)
+        }})})
+    }
 
     
 
 }
 
-module.exports = Comments
+module.exports = Comment

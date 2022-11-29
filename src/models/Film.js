@@ -124,6 +124,26 @@ class Film{
       console.log(error)
       }})})}
 
+    getListFilm(){
+      return new Promise((resolve, reject) => {
+      pool.getConnection( (err,connection) =>{ 
+      try {
+      const query = "SELECT idPhim,tenPhim FROM phim"
+      if (err) throw err
+      connection.query(
+      query,
+      [],
+      (err,rows) =>{
+      if (err) throw err
+      resolve(rows)
+      })
+      connection.release()
+      }catch (error) {
+      reject(error)
+      console.log(error)
+      }})})
+    }
+
     getFilmById(){
      return new Promise((resolve, reject) => {
        pool.getConnection( (err,connection) =>{ 
@@ -283,7 +303,7 @@ class Film{
           }})})}
 
 
-          getTopRating(){
+      getTopRating(){
             return new Promise((resolve, reject) => {
               pool.getConnection( (err,connection) =>{ if (err) throw err
               try {
@@ -372,27 +392,6 @@ class Film{
           if (err) throw err
          this.#id = result.insertId
         resolve(result.insertId)
-        })
-        connection.release()
-        }catch (error) {
-        reject(error)
-        console.log(error)
-        }})})
-      }
-    
-      rateFilm(){
-        return new Promise((resolve, reject) => {
-        pool.getConnection( (err,connection) =>{ 
-        try {
-        const query = "INSERT INTO khach_hang_danh_gia VALUES(?,?,?)" 
-        if (err) throw err
-        connection.query(
-        query,
-        [this.#idUser,this.#id,this.#rating],
-        (err,rows) =>{
-        if (err) throw err
-        // if(rows.length === 0) throw new NotFoundError() 
-        resolve(rows)
         })
         connection.release()
         }catch (error) {
