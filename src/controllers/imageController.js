@@ -1,5 +1,5 @@
 const Image = require("../models/Image");
-const  {readImageFile,writeImageFile}  = require("../helper/readImageFile");
+const  {readImageFile,writeImageFile}  = require("../helper/handleImageFile");
 const path = require('path')
 
 const createImageInFilm = async (req,res,next) => {

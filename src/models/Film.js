@@ -6,9 +6,8 @@ const {
 } = require("../helper/customError");
 const pool = require("../config/configMysql");
 
-var express = require('express')
-var fs = require('fs')
-var app = express()
+
+
 
 
 class Film{
@@ -477,27 +476,6 @@ class Film{
        // *****************************************************************************************
       // Nhóm chức năng Xem phim
 
-      async playFilm(range, res){
-        const videoSize = fs.statSync(this.#path).size
-        const chunkSize = 1 * 1e+6
-        const start = Number(range.replace(/\D/g, '')) // /_/g la global match, \D la 
-        const end = Math.min(start + chunkSize, videoSize - 1)
-        console.log('range: ', range)
-        const contentLength = end - start + 1
-        
-        const headers = {
-            "Content-Range": `bytes ${start}-${end}/${videoSize}`,
-            "Accept-Ranges": "bytes",
-            "Content-Length": contentLength,
-            "Content-Type": "video/mp4"
-        }
-    
-        console.log('headers: ', headers)
-        res.writeHead(206, headers)
-        
-        const stream = fs.createReadStream(this.#path, {start, end})
-        stream.pipe(res)
-      }
 
       getFilmPath() {
         return new Promise((resolve, reject) => {
