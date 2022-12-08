@@ -66,6 +66,26 @@ class Actor{
         }})})
     }
 
+    getFilmByActor(){
+        return new Promise((resolve, reject) => {
+        pool.getConnection( (err,connection) =>{ 
+        try {
+        const query = "SELECT idPhim, tenPhim, luotXem, danhGiaPhim FROM phim WHERE idPhim IN (SELECT idPhim FROM phim__dien_vien_dong WHERE idDienVien = ? )";
+        if (err) throw err
+        connection.query(
+        query,
+        [this.#id],
+        (err,rows) =>{
+        if (err) throw err
+        resolve(rows)
+        })
+        connection.release()
+        }catch (error) {
+        reject(error)
+        console.log(error)
+        }})})
+    }
+
     getActorsByIdFilm(){
         return new Promise((resolve, reject) => {
         pool.getConnection( (err,connection) =>{ 

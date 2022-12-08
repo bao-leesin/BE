@@ -8,7 +8,7 @@ router.use('/update',genreController.updateGenre)
 // {idTheLoai,tenTheLoai}
 
 router.use('/delete/:idTheLoai',genreController.deleteGenre)
-router.use('/filter/:tenTheLoai', genreController.getFilmByGenres)
+router.use('/filter/:idTheLoai', genreController.getFilmByGenres)
 router.use('/show',genreController.getAllGenres)
 
 

@@ -25,22 +25,31 @@ class Genre{
     }
 
     set setIdFilm(idFilm){
-        this.#idFilm = idFilm
+        this.#idFilm = idFilm;
     }
 
     get getIdFilm(){
         return this.#idFilm;
     }
 
+    set setId(id){
+        this.#id = id;
+    }
+
+    get getId(){
+        return this.#id;
+    }
+
+
     getFilmByGenre(){
         return new Promise((resolve, reject) => {
         pool.getConnection( (err,connection) =>{ 
         try {
-        const query = "SELECT idPhim, tenPhim, luotXem, danhGiaPhim FROM phim WHERE idPhim IN (SELECT idPhim FROM phim__the_loai WHERE theLoai = ? )"
+        const query = "SELECT idPhim, tenPhim, luotXem, danhGiaPhim FROM phim WHERE idPhim IN (SELECT idPhim FROM phim__the_loai WHERE idTheLoai = ? )"
         if (err) throw err
         connection.query(
         query,
-        [this.#name],
+        [this.#id],
         (err,rows) =>{
         if (err) throw err
         resolve(rows)

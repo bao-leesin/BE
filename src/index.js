@@ -19,10 +19,8 @@ app.all('/', function(req, res, next) {
 app.use(express.json()) 
 app.use(express.urlencoded({extended:  true}))
 
-
 app.use(cors())
 app.use(morgan('combined'))
-
 
 // Set up view
 // app.engine('handlebars', handlebars.engine())
@@ -30,8 +28,6 @@ app.use(morgan('combined'))
 // app.set('views', path.join(__dirname,'resources/views'))
 
 routes(app)
- 
-
 
 app.listen(port, () => { 
     console.log('Server is running on http://localhost:' + port);

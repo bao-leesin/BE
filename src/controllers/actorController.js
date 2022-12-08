@@ -1,15 +1,22 @@
 const Actor = require("../models/Actor")
-const Film = require("../models/Film")
 
-const getIdByName = async (req,res,next) => {
+
+const getFilmByActor = async (req,res,next) => {
+   const idDienVien = req.params.idDienVien;
+   try {
     let actor = new Actor()
-    actor.setName = "Camila Mendes"  
-    const kq = await actor.getIdByName()
+    actor.setId = idDienVien
+     const films = await actor.getFilmByActor();
+     res.send(films);
+   } catch (error) {
+     res.status(400).send(error.message);
+   }
 }
 
 
 
 
+
 module.exports = {
-    getIdByName
+    getFilmByActor
 }

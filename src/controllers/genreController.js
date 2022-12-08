@@ -48,11 +48,10 @@ const getAllGenres = async (req,res,next) => {
 }
 
 const getFilmByGenres = async (req, res, next) => {
-    const tenTheLoai = req.params.tenTheLoai
-    console.log(tenTheLoai);
+    const idTheLoai = req.params.idTheLoai
     try {
      let genre = new Genre()
-     genre.setName = tenTheLoai
+     genre.setId = idTheLoai
       const films = await genre.getFilmByGenre();
       res.send(films);
     } catch (error) {
