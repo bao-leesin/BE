@@ -368,11 +368,23 @@ const playFilmCtrl = async (req, res, next) => {
   let film = new Film();
   film.setId = idPhim;
   const path = await film.getFilmPath();
-  const {headers,stream} = await streamVideo(range,path)
+  const chunkSize = 1 * 1e7;
+  const {headers,stream} = await streamVideo(range,path,chunkSize)
   res.writeHead(206, headers);
   stream.pipe(res);
-
 };
+
+const playTrailer = async (req,res,next) => {
+  const range = req.headers.range;
+  const idPhim = req.params.idPhim;
+  let film = new Film();
+  film.setId = idPhim;
+  const path = await film.getTrailer();
+  const chunkSize = 1 * 1e6;
+  const {headers,stream} = await streamVideo(range,path,chunkSize)
+  res.writeHead(206, headers);
+  stream.pipe(res);
+}
 
 module.exports = {
   getAllFilm,
@@ -387,4 +399,5 @@ module.exports = {
   showRatingFilm,
   createFilmImages,
   playFilmCtrl,
+  playTrailer
 };

@@ -11,4 +11,7 @@ class Subtitle{
         this.#end = end
     }
 
+    createSubtitleInFilm(){}
 }
+
+module.exports = Subtitle

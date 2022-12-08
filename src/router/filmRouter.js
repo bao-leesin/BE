@@ -39,6 +39,7 @@ router.use("/update", filmController.updateFilm);
 
 router.use("/delete/:idPhim", filmController.deleteFilm);
 router.use("/playFilm/:idPhim", filmController.playFilmCtrl);
+router.use("/playTrailer/:idPhim", filmController.playTrailer);
 router.use("/show/:idPhim", filmController.getFilmById);
 router.use("/show/rating/:idPhim", filmController.showRatingFilm);
 router.use("/show", filmController.getAllFilm);
