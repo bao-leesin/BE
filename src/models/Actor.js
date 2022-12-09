@@ -44,6 +44,27 @@ class Actor{
         return this.#idFilm;
     }
 
+    getAllActor(){
+        return new Promise((resolve, reject) => {
+        pool.getConnection( (err,connection) =>{ 
+        try {
+        const query = "SELECT idDienVien, tenDienVien FROM dien_vien"
+        if (err) throw err
+        connection.query(
+        query,
+        [],
+        (err,rows) =>{
+        if (err) throw err
+        resolve(rows)
+        })
+        connection.release()
+        }catch (error) {
+        reject(error)
+        console.log(error)
+        }})})
+    }
+
+
     getIdByName(){
         return new Promise((resolve, reject) => {
         pool.getConnection( (err,connection) =>{ 

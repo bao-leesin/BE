@@ -499,6 +499,7 @@ class Film{
           }})})
       }
 
+
       getTrailer(){
         return new Promise((resolve, reject) => {
           pool.getConnection( (err,connection) =>{ 
@@ -512,7 +513,7 @@ class Film{
           if (err) throw err
           if(rows.length === 0) throw new NotFoundError() 
         //  this.#trailer = rows[0].duongDan
-          resolve(rows[0].duongDan)
+          resolve(rows[0].trailer)
           })
           connection.release()
           }catch (error) {

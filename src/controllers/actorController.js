@@ -13,10 +13,21 @@ const getFilmByActor = async (req,res,next) => {
    }
 }
 
+const getAllActor = async (req,res,next) => {
+  try {
+    let actor = new Actor()
+    const actors =  await actor.getAllActor()
+    res.send(actors)
+  } catch (error) {
+    res.status(400).send(error.message);
+  }
+}
+
 
 
 
 
 module.exports = {
+  getAllActor,
     getFilmByActor
 }

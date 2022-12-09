@@ -6,7 +6,7 @@ const createImageInFilm = async (req,res,next) => {
     const {idPhim,vaiTro,soHieu} = req.body
     let duongDanAnh = idPhim + "_" + vaiTro + "_"+ soHieu + ".jpg"
     const duLieuAnh = readImageFile(duongDanAnh)
-    duongDanAnh = duongDanAnh.substring(0,length-3) + "png"
+    duongDanAnh = duongDanAnh.substring(0,duongDanAnh.length - 3) + "png"
     let image = new Image(null,idPhim,vaiTro,duongDanAnh,duLieuAnh)
     await image.createFilmImages()
     res.send("Success")

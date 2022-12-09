@@ -5,25 +5,25 @@ const Genre = require("../models/Genre");
 const Image = require("../models/Image");
 
 
-const getAllFilm = async (req, res, next) => {
-  let film = new Film();
-  try {
-    const films = await film.getAllFilm();
-    const data = await Promise.all(
-      films.map(async (film) => {
-        let films = new Film();
-        let image = new Image(); 
-        films.setId = film.idPhim;
-        image.setIdFilm = film.idPhim;
-        const duongDanAnh = await image.getImageOfFilm()
-        return film;
-      })
-    );
-    res.send(data);
-  } catch (error) {
-    res.status(400).send(error.message);
-  }
-};
+// const getAllFilm = async (req, res, next) => {
+//   let film = new Film();
+//   try {
+//     const films = await film.getAllFilm();
+//     const data = await Promise.all(
+//       films.map(async (film) => {
+//         let films = new Film();
+//         let image = new Image(); 
+//         films.setId = film.idPhim;
+//         image.setIdFilm = film.idPhim;
+//         const duongDanAnh = await image.getImageOfFilm()
+//         return film;
+//       })
+//     );
+//     res.send(data);
+//   } catch (error) {
+//     res.status(400).send(error.message);
+//   }
+// };
 
 const getListFilm = async (req,res,next) => {
   let film = new Film();
@@ -374,7 +374,8 @@ const playFilmCtrl = async (req, res, next) => {
   stream.pipe(res);
 };
 
-const playTrailer = async (req,res,next) => {
+
+const playTrailer = async (req, res, next) => {
   const range = req.headers.range;
   const idPhim = req.params.idPhim;
   let film = new Film();
