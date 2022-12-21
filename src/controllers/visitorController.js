@@ -53,7 +53,6 @@ const Image = require("../models/Image");
 const showHomePage =async (req,res,next) =>{
   try {
   let film = new Film();
-
   const hotFilm = await film.getTopView()
   const appreciatedFilm = await film.getTopRating()
   const newFilm = await film.getTopNew();

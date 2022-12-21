@@ -280,7 +280,7 @@ class Film{
                 else resolve(rows)
               })
               connection.release();
-            
+    
           } catch (error) {
             connection.release();
             reject(error)

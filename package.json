@@ -22,11 +22,11 @@
     "mysql": "^2.18.1",
     "mysql2": "^2.3.3",
     "nodemailer": "^6.8.0",
-    "nvm": "^0.0.4"
+    "nvm": "^0.0.4",
+    "dotenv": "^16.0.3",
+    "morgan": "^1.10.0"
   },
   "devDependencies": {
-    "dotenv": "^16.0.3",
-    "morgan": "^1.10.0",
     "nodemon": "^2.0.20"
   }
 }

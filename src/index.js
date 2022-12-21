@@ -1,12 +1,10 @@
-require('dotenv').config()
-
 const express = require('express')
 const cors = require('cors')
 const morgan = require('morgan')
 const app = express()
 
 const routes = require('./router')
-const port = process.env.PORT || 3003
+const port = 3003
 
 app.all('/', function(req, res, next) {
     res.header("Access-Control-Allow-Origin", "*");
