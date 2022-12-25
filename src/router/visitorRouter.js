@@ -10,7 +10,7 @@ router.use('/register', visitorController.register);
 
 router.use('/passwordRetrieval', visitorController.passwordRetrieval);
 
-router.use('/homePage',visitorController.showHomePage)
+
 
    
 

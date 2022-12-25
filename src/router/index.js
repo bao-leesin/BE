@@ -28,9 +28,6 @@ function route(app) {
     app.use('/apis/comment/',commentRouter)
     app.use('/apis/watchfilm/',watchFilmRouter)
     app.use('/apis/question/',questionRouter)
-
-
-
 }
 
 module.exports = route

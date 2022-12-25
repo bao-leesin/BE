@@ -19,7 +19,6 @@
     "firebase": "^9.13.0",
     "jsonwebtoken": "^8.5.1",
     "moment": "^2.29.4",
-    "mysql": "^2.18.1",
     "mysql2": "^2.3.3",
     "nodemailer": "^6.8.0",
     "nvm": "^0.0.4",

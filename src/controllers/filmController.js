@@ -33,6 +33,53 @@ const getAllFilm = async (req, res, next) => {
   }
 };
 
+
+const showTopFilm =async (req,res,next) =>{
+  try {
+  let film = new Film();
+  const hotFilm = await film.getTopView()
+  const appreciatedFilm = await film.getTopRating()
+  const newFilm = await film.getTopNew();
+
+  const phimHot = await Promise.all(
+    hotFilm.map(async film => {
+    let image = new Image()
+    image.setIdFilm = film.idPhim
+    const images =   await image.getImageOfFilm()
+    film = {...film,...images}
+    return film
+  }))
+
+
+  const phimHay = await Promise.all(
+    appreciatedFilm.map(async film => {
+    let image = new Image()
+    image.setIdFilm = film.idPhim
+    const images =   await image.getImageOfFilm()
+    film = {...film,...images}
+    return film
+  }))
+
+  const phimMoi = await Promise.all(
+    newFilm.map(async film => {
+    let image = new Image()
+    image.setIdFilm = film.idPhim
+    const images =   await image.getImageOfFilm()
+    film = {...film,...images}
+    return film
+  }))
+
+  const dataFilm = {
+      phimHot:phimHot,
+      phimHay:phimHay,
+      phimMoi:phimMoi
+  }
+  res.send(dataFilm)
+  } catch (error) {
+  res.send(error)
+  }
+}
+
 const getFilmById = async (req, res, next) => {
   let film = new Film();
   let actor = new Actor();
@@ -354,6 +401,7 @@ const playFilmCtrl = async (req, res, next) => {
 
 module.exports = {
   getAllFilm,
+  showTopFilm,
   getFilmByName,
   getFilmById,
   getFilmByRating,

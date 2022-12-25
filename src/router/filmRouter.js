@@ -41,6 +41,7 @@ router.use("/playfilm/:id", filmController.playFilmCtrl);
 
 router.use("/show/id/:idPhim", filmController.getFilmById);
 router.use("/show/rating/:idPhim", filmController.showRatingFilm);
+router.use("/show/top", filmController.showTopFilm);
 router.use("/show", filmController.getAllFilm);
 
 module.exports = router;
